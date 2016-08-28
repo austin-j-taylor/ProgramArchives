@@ -1,0 +1,1 @@
+Metronome is simply a metronome. It can be adjusted to any time signature or tempo.

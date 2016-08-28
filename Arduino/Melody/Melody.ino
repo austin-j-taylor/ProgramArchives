@@ -68,60 +68,60 @@ class Songbook {
     //    static Note nTest[5];
     //    static Note nZeldasLullaby[32];
     //    static Note nClocktownBass[75];
-    static Note nClocktownMelody[131];
+    static Note* nClocktownMelody[131];
   public:
     //    static Song Test;
     //    static Song ZeldasLullaby;
     //    static Song ClocktownBass;
     static Song ClocktownMelody;
 };
-//Note Songbook::nTest[5] = {
-//  Note(0, 16 / 2 * 3), Note(2, 16 / 2), Note(4, 16), Note(-1, 16), Note(0, 16 * 2)
+// Note Songbook::nTest[5] = {
+//  new Note(0, 16 / 2 * 3), new Note(2, 16 / 2), new Note(4, 16), new Note(-1, 16), new Note(0, 16 * 2)
 //};
 //Note Songbook::nZeldasLullaby[32] = {
-//  Note(4, 32), Note(7, 16), Note(2, 32), Note(0, 8), Note(2, 8),
-//  Note(4, 32), Note(7, 16), Note(2, 32), Note(999, 16), Note(4, 32),
-//  Note(7, 16), Note(14, 32), Note(12, 16), Note(7, 32), Note(5, 8),
-//  Note(4, 8), Note(2, 32), Note(999, 16), Note(4, 32), Note(7, 16), Note(2, 32), // + 1
-//  Note(0, 8), Note(2, 8), Note(4, 32), Note(7, 16), Note(2, 32),
-//  Note(999, 16), Note(4, 32), Note(7, 16), Note(14, 32), Note(12, 16),
-//  Note(19, 48)
+//  new Note(4, 32), new Note(7, 16), new Note(2, 32), new Note(0, 8), new Note(2, 8),
+//  new Note(4, 32), new Note(7, 16), new Note(2, 32), new Note(999, 16), new Note(4, 32),
+//  new Note(7, 16), new Note(14, 32), new Note(12, 16), new Note(7, 32), new Note(5, 8),
+//  new Note(4, 8), new Note(2, 32), new Note(999, 16), new Note(4, 32), new Note(7, 16), new Note(2, 32), // + 1
+//  new Note(0, 8), new Note(2, 8), new Note(4, 32), new Note(7, 16), new Note(2, 32),
+//  new Note(999, 16), new Note(4, 32), new Note(7, 16), new Note(14, 32), new Note(12, 16),
+//  new Note(19, 48)
 //};
-//Note Songbook::nClocktownBass[75] = {
-//  Note(0, 96), Note(-1, 48), Note(999, 48), Note(-3, 96), Note(-1, 48), Note(999, 48), // x6
-//  Note(0, 96), Note(-1, 48), Note(999, 48), Note(-3, 40), Note(999, 8), Note(-1, 16), Note(999, 32), Note(0, 48), Note(999, 48), // x9
-//  Note(0, 96), Note(-1, 48), Note(999, 48), Note(-3, 96), Note(-1, 48), Note(999, 48), // x6
-//  Note(0, 96), Note(-1, 48), Note(999, 48), Note(-3, 40), Note(999, 8), Note(-1, 16), Note(999, 32), Note(0, 48), Note(999, 48), // x9
-//  Note(0, 96), Note(-1, 48), Note(999, 48), Note(-3, 96), Note(-1, 48), Note(999, 48), // x6
-//  Note(0, 96), Note(-1, 48), Note(999, 48), Note(-3, 40), Note(999, 8), Note(-1, 16), Note(999, 32), Note(0, 48), Note(999, 48), // x9
-//  Note(0, 96), Note(-1, 48), Note(999, 48), Note(-3, 96), Note(-1, 48), Note(999, 48), // x6
-//  Note(0, 96), Note(-1, 48), Note(999, 48), Note(-3, 40), Note(999, 8), Note(-1, 16), Note(999, 32), Note(0, 48), Note(999, 48), // x9
-//  Note(0, 96), Note(-1, 48), Note(999, 48), Note(-3, 96), Note(-1, 48), Note(999, 48), // x6
-//  Note(0, 96), Note(-1, 48), Note(999, 48), Note(-3, 40), Note(999, 8), Note(-1, 16), Note(999, 32), Note(0, 48), Note(999, 48), // x9
+// Note Songbook::nClocktownBass[75] = {
+//  new Note(0, 96), new Note(-1, 48), new Note(999, 48), new Note(-3, 96), new Note(-1, 48), new Note(999, 48), // x6
+//  new Note(0, 96), new Note(-1, 48), new Note(999, 48), new Note(-3, 40), new Note(999, 8), new Note(-1, 16), new Note(999, 32), new Note(0, 48), new Note(999, 48), // x9
+//  new Note(0, 96), new Note(-1, 48), new Note(999, 48), new Note(-3, 96), new Note(-1, 48), new Note(999, 48), // x6
+//  new Note(0, 96), new Note(-1, 48), new Note(999, 48), new Note(-3, 40), new Note(999, 8), new Note(-1, 16), new Note(999, 32), new Note(0, 48), new Note(999, 48), // x9
+//  new Note(0, 96), new Note(-1, 48), new Note(999, 48), new Note(-3, 96), new Note(-1, 48), new Note(999, 48), // x6
+//  new Note(0, 96), new Note(-1, 48), new Note(999, 48), new Note(-3, 40), new Note(999, 8), new Note(-1, 16), new Note(999, 32), new Note(0, 48), new Note(999, 48), // x9
+//  new Note(0, 96), new Note(-1, 48), new Note(999, 48), new Note(-3, 96), new Note(-1, 48), new Note(999, 48), // x6
+//  new Note(0, 96), new Note(-1, 48), new Note(999, 48), new Note(-3, 40), new Note(999, 8), new Note(-1, 16), new Note(999, 32), new Note(0, 48), new Note(999, 48), // x9
+//  new Note(0, 96), new Note(-1, 48), new Note(999, 48), new Note(-3, 96), new Note(-1, 48), new Note(999, 48), // x6
+//  new Note(0, 96), new Note(-1, 48), new Note(999, 48), new Note(-3, 40), new Note(999, 8), new Note(-1, 16), new Note(999, 32), new Note(0, 48), new Note(999, 48), // x9
 //};
-Note Songbook::nClocktownMelody[131] = {
-  Note(0, 96), Note(-1, 48), Note(999, 48), Note(-3, 96), Note(-1, 48), Note(999, 48), // x6
-  Note(0, 96), Note(-1, 48), Note(999, 48), Note(-3, 40), Note(999, 8), Note(-1, 16), Note(999, 32), Note(0, 48), Note(999, 48), // x9
+Note* Songbook::nClocktownMelody[131] = {
+  new Note(0, 96), new Note(-1, 48), new Note(999, 48), new Note(-3, 96), new Note(-1, 48), new Note(999, 48), // x6
+  new Note(0, 96), new Note(-1, 48), new Note(999, 48), new Note(-3, 40), new Note(999, 8), new Note(-1, 16), new Note(999, 32), new Note(0, 48), new Note(999, 48), // x9
 
-  Note(12, 32), Note(24, 16), Note(23, 16), Note(21, 16), Note(19, 16), Note(21, 48), Note(17, 48), // x7
-  Note(19, 32), Note(14, 16), Note(19, 16), Note(17, 16), Note(14, 16), Note(17, 32), Note(19, 16), Note(16, 48), // x8
-  Note(12, 32), Note(24, 16), Note(23, 16), Note(21, 16), Note(19, 16), Note(21, 48), Note(17, 48), // x7
-  Note(19, 16), Note(17, 16), Note(14, 16), Note(17, 32), Note(16, 16), Note(12, 48), Note(999, 48), // x7
+  new Note(12, 32), new Note(24, 16), new Note(23, 16), new Note(21, 16), new Note(19, 16), new Note(21, 48), new Note(17, 48), // x7
+  new Note(19, 32), new Note(14, 16), new Note(19, 16), new Note(17, 16), new Note(14, 16), new Note(17, 32), new Note(19, 16), new Note(16, 48), // x8
+  new Note(12, 32), new Note(24, 16), new Note(23, 16), new Note(21, 16), new Note(19, 16), new Note(21, 48), new Note(17, 48), // x7
+  new Note(19, 16), new Note(17, 16), new Note(14, 16), new Note(17, 32), new Note(16, 16), new Note(12, 48), new Note(999, 48), // x7
 
-  Note(12, 32), Note(24, 16), Note(23, 16), Note(21, 16), Note(19, 16), Note(21, 48), Note(17, 48), // x7
-  Note(19, 32), Note(14, 16), Note(19, 16), Note(17, 16), Note(14, 16), Note(17, 32), Note(19, 16), Note(16, 48), // x8
-  Note(12, 32), Note(24, 16), Note(23, 16), Note(21, 16), Note(19, 16), Note(21, 48), Note(17, 48), // x7
-  Note(19, 16), Note(17, 16), Note(14, 16), Note(17, 32), Note(16, 16), Note(12, 48), Note(999, 48), // x7
+  new Note(12, 32), new Note(24, 16), new Note(23, 16), new Note(21, 16), new Note(19, 16), new Note(21, 48), new Note(17, 48), // x7
+  new Note(19, 32), new Note(14, 16), new Note(19, 16), new Note(17, 16), new Note(14, 16), new Note(17, 32), new Note(19, 16), new Note(16, 48), // x8
+  new Note(12, 32), new Note(24, 16), new Note(23, 16), new Note(21, 16), new Note(19, 16), new Note(21, 48), new Note(17, 48), // x7
+  new Note(19, 16), new Note(17, 16), new Note(14, 16), new Note(17, 32), new Note(16, 16), new Note(12, 48), new Note(999, 48), // x7
 
-  Note(12, 32), Note(12, 16), Note(12, 16), Note(11, 16), Note(12, 16), Note(14, 48), Note(7, 48), // x7
-  Note(17, 16), Note(16, 16), Note(17, 16), Note(16, 32), Note(12, 16), Note(14, 32), Note(11, 16), Note(7, 48), // x8
-  Note(12, 32), Note(12, 16), Note(12, 16), Note(11, 16), Note(12, 16), Note(14, 48), Note(7, 48), // x7
-  Note(17, 16), Note(16, 16), Note(17, 16), Note(16, 32), Note(11, 16), Note(12, 48), Note(999, 48), // x7
+  new Note(12, 32), new Note(12, 16), new Note(12, 16), new Note(11, 16), new Note(12, 16), new Note(14, 48), new Note(7, 48), // x7
+  new Note(17, 16), new Note(16, 16), new Note(17, 16), new Note(16, 32), new Note(12, 16), new Note(14, 32), new Note(11, 16), new Note(7, 48), // x8
+  new Note(12, 32), new Note(12, 16), new Note(12, 16), new Note(11, 16), new Note(12, 16), new Note(14, 48), new Note(7, 48), // x7
+  new Note(17, 16), new Note(16, 16), new Note(17, 16), new Note(16, 32), new Note(11, 16), new Note(12, 48), new Note(999, 48), // x7
 
-  Note(12, 32), Note(12, 16), Note(12, 16), Note(11, 16), Note(12, 16), Note(14, 48), Note(7, 48), // x7
-  Note(17, 16), Note(16, 16), Note(17, 16), Note(16, 32), Note(12, 16), Note(14, 32), Note(11, 16), Note(7, 48), // x8
-  Note(12, 32), Note(12, 16), Note(12, 16), Note(11, 16), Note(12, 16), Note(14, 48), Note(7, 48), // x7
-  Note(17, 16), Note(16, 16), Note(17, 16), Note(16, 32), Note(11, 16), Note(12, 48), Note(999, 48) // x7
+  new Note(12, 32), new Note(12, 16), new Note(12, 16), new Note(11, 16), new Note(12, 16), new Note(14, 48), new Note(7, 48), // x7
+  new Note(17, 16), new Note(16, 16), new Note(17, 16), new Note(16, 32), new Note(12, 16), new Note(14, 32), new Note(11, 16), new Note(7, 48), // x8
+  new Note(12, 32), new Note(12, 16), new Note(12, 16), new Note(11, 16), new Note(12, 16), new Note(14, 48), new Note(7, 48), // x7
+  new Note(17, 16), new Note(16, 16), new Note(17, 16), new Note(16, 32), new Note(11, 16), new Note(12, 48), new Note(999, 48) // x7
 };
 
 //Song Songbook::Test = Song(nTest, 5);

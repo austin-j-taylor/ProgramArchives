@@ -1,0 +1,19 @@
+Melody is a software-based music player. Code-wise, a Song object contains an array of Motifs which each contain an array of Notes. "Playing" a Song causes the piezoelectric speaker to sequentially play each Note in each Motif. Songs can be played in any diatonic key by changing the argument to the setKey(char) method call in setup().
+
+Each Note object has a "distance" variable which is the distance of the note from a base note in semitones (i.e. if the Note should play 'A' and the base note is 'C', the distance would be 3 as C is 3 semitones from A. This distance can be negative for notes lower than the base note). Each note also has a "duration" integer, with 64 being a whole note, 32 a half, 16 a quarter, 8 an eighth, and so on.
+
+Each Motif object contains an array of Notes initialized in its constructor. Motifs are used to conserve memory, as many parts of songs repeat and it would be inefficient to individually define all of the notes (In the first song for which I used this form of compression, I went from using ~50% of the Arduino's memory to only ~15%).
+
+Each Song object contains an array of pointers to Motifs, which the Arduino plays sequentially. A Song also contains integers for tempo and the note value given one beat (the denominator of the time signature), which are used when playing a song to calculate how many milliseconds a Note's duration should be played for.
+
+------------------------------------------------------------------------------------------------------
+
+The 3 buttons on the arduino use binary logic to play any of 7 potential songs (2^3-1). When one is pushed, the Ardunio waits for 1/10 of a second and then reads what buttons are being pressed; it then plays a song based on the combinations of buttons pressed. At the moment, I've only added 3 songs, and the unused button combinations simply play a variety of frequencies.
+
+Song 001 is "Zelda's Lullaby" from The Legend of Zelda: Ocarina of Time, Song 010 is "Clock Town" from The Legend of Zelda: Majora's Mask, and Song 100 is the repeating baseline for "Clock Town".
+
+------------------------------------------------------------------------------------------------------
+
+Arduinos lack access to the std::vector library, so all Songs are written with standard arrays and finite sizes.
+
+I used a non-logarithmic formula found at http://www.phy.mtu.edu/~suits/NoteFreqCalcs.html in tandem with the Arduino's math library to calculate the frenquency sent to the speaker.

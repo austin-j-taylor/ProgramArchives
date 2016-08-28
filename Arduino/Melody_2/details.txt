@@ -1,0 +1,32 @@
+[WIP]
+
+Melody 2 is based off of Melody. It uses Melody's same system of songs stored as Songs, Motifs, and Notes, as well as nearly the same wiring; however, unlike melody, it can play two Songs simultaneously through two piezo speakers.
+
+The complexity of this program arises from a major musical shortcoming of Arduinos: the tone() function, used to output a frequency to a pin, can only be used on one pin at a time. If I had two speakers connected to two pins and called tone() to one of them and then later to the other, the former would
+cease to output as the latter plays the tone. So, the Arduino's tone() function couldn't be used.
+
+My first though was to use multithreading, the ability for different lines of programs to effectively run simultaneously; unfortunately, Arduinos lack this feature entirely. I looked at libraries written by others, but they had the same problem regarding multiple calls to tone(). Eventually I found an article written by Jeremy Blum at http://www.jeremyblum.com/2010/09/05/driving-5-speakers-simultaneously-with-an-arduino/ that circumvented the issue entirely.
+
+A piezoelectric speaker works by vibrating whenever it experiences voltage; so, if it experiences a voltage that is toggled on and off 440 times per second, it will emit a tone equal to that requency: 440Hz, or A4. Connecting a pin on the Arduino to a speaker and telling it to toggle on and off its voltage 440 times per second therefore plays a note.
+
+Blum effectively rewrote the tone() function by having the Arduino use an interrupt. I learned that an interrupt is a function that can be assigned to be called every certain number of microseconds, overtaking the processor and pausing whatever it was doing before. By telling the Arduino to toggle voltage on a pin every ~1136 microseconds (half the period of 440Hz), the piezo will sound out approximately A4.
+
+Next came playing notes in sequence. By using global variables for indices, I made a sort of for-loop that would use conditionals to figure out what note to play after the previous one finished.
+
+By doing this with multiple pins each call of the interrupt, multiple frequencies can be played on multiple speakers.
+
+------------------------------------------------------------------------------------------------------
+
+Song 001 is "Clock Town" from The Legend of Zelda: Majora's Mask.
+
+The wiring of Melody 2 is backwards-compatable with Melody, so the latter's code will run on the same board.
+
+------------------------------------------------------------------------------------------------------
+
+I didn't make Melody_2 extended from Melody, as there are different enough parts that it wouldn't be worth it. Also, I can only have one setup() and loop() method in a hierarchy of classes, so I couldn't retain Melody's functions as a more tonally accurate player if I lumped it together with Melody_2.
+
+I spent a lot more time on this than on other projects as it dealt with a lot of aspects of programming (and Arduinos) that were unfamiliar to me. Firstly, there were interrupts, which I hadn't dealt with before. I also learned about c++'s bitwise operators, as Blum used those in his code. I especially learned about how important it is do declare variables as volatile when they're being modified every 32 microseconds.
+
+I experienced a lot more problems than I'm used to as well. I'd never dealt with things on the scale of microseconds, so code that took too long in the interrupt caused a number of issues. I tried to use a for loop in the interrupt to go through each channel in sequence, but the Arduino really didn't like that. I instead had to copy-paste the code for each channel, which is normally bad practice. There were also far more memory-relating bugs: In one class, adding one uninitialized variable used nowhere in the problem would cause one of the channels to stop playing but leave the other fine; adding two would cause nothing to play from either; but adding none caused one channel to loop 81 times due to the changing of a private "length" variable. Also, replacing some variables with pointers also broke things horribly despite using the right operators and everything.
+
+Perhaps, though, the most annoying part of this all is the quantum physics-like properties of the Arduino's console; calling a print() function from within an Interrupt causes a variety of issues as print() is apparently very resource intensive, so simply trying to observe the values of variables to try to identify the source of a bug could change them.

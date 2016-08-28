@@ -14,14 +14,13 @@ void setBeatsPerBar(int b) {
 void setNoteIsOneBeat(int b) {
   noteIsOneBeat = b;
 }
-// tempo is in units of "(1 / noteIsOneBeat)-notes per minute"
 void setTempo(int t) {
   beatInMilliseconds = 1.0 / (t / 60.0 / 1000.0) / noteIsOneBeat;
 }
 void setup() {
   pinMode(pin, OUTPUT);
 
-  setBeatsPerBar(4); // numerator of time signature
+  setBeatsPerBar(3); // numerator of time signature
   setNoteIsOneBeat(4); // denominator of time signature
   
   setTempo(120); // in "(1 / noteIsOneBeat)-notes per minute" i.e. "quarter notes per minute" or "eighth notes per minute"

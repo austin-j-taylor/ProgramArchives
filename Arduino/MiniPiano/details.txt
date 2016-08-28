@@ -1,0 +1,5 @@
+(I can't find my actual code for this one, but I at least have this photo.)
+
+MiniPiano uses 10 buttons and 10 resistors in series so that when a button in a certain position is pressed, the current is directed through a certain number of resistors. The resulting current is read by the Arduino and is used to generate a frequency played by the piezoelectric speaker.
+
+Each button plays a sequential note in the diatonic scale, starting on VI and ending on the second I above it, making it able to play a major scale and its relative minor.
