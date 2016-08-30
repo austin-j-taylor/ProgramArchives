@@ -52,7 +52,7 @@ char length[] = { 0, 0 };
 // Frequency 'n' semitones away from Base Frequency = Base Frequency * ((2^(1/12))^n)
 double key = 220.0;
 double beatInMilliseconds;
-int noteIsOneBeat;
+unsigned int noteIsOneBeat;
 // durations: 64 = whole note, 32 = half note, 16 = quarter note, 8 = eighth note, 4 = sixteenth note
 
 /* CLASSES USED IN FORMATION OF SONGS */
@@ -67,24 +67,24 @@ class Note {
 // an array of Notes
 class Motif {
   public:
-    char length; // number of notes
+    unsigned char length; // number of notes
     Note* notes;
-    Motif(Note* nNotes, char nLength) : length(nLength), notes(nNotes) {}
+    Motif(Note* nNotes,  unsigned char nLength) : length(nLength), notes(nNotes) {}
 };
 
 // an array of Motifs
 class Song {
   private:
     // be warned: there are SERIOUS memory problems with using getlength(). somehow, length gets changed (pointer gone rogue? I don't know) and getlength() returns a bad value. use the global variable length[] instead.
-    char length;
+    unsigned char length;
   public:
-    char getlength() {
+    unsigned char getlength() {
       return length;
     }
-    char defaultTempo; // in "(1 / noteIsOneBeat)-notes per minute" i.e. "quarter notes per minute" or "eighth notes per minute"       NUMERATOR of time signature
-    char defaultNoteIsOneBeat; // note that is one beat                                                                                DENOMINATOR of time signature
+    unsigned char defaultTempo; // in "(1 / noteIsOneBeat)-notes per minute" i.e. "quarter notes per minute" or "eighth notes per minute"       NUMERATOR of time signature
+    unsigned char defaultNoteIsOneBeat; // note that is one beat                                                                                DENOMINATOR of time signature
     Motif** motifs;
-    Song(Motif** nMotifs, char nLength, char tempo, char beat) : motifs(nMotifs), length(nLength), defaultTempo(tempo), defaultNoteIsOneBeat(beat) {}
+    Song(Motif** nMotifs,  unsigned char nLength,  unsigned char tempo,  unsigned char beat) : motifs(nMotifs), length(nLength), defaultTempo(tempo), defaultNoteIsOneBeat(beat) {}
 };
 
 // collection of written Songs
@@ -100,6 +100,8 @@ class Songbook {
     */
   private:
     static Note n_ClocktownB1[15];
+    static Note n_ClocktownB2[14];
+    static Note n_ClocktownB3[10];
     static Note n_Clocktown1[8];
     static Note n_Clocktown2[7];
     static Note n_Clocktown3[8];
@@ -107,8 +109,11 @@ class Songbook {
     static Note n_Clocktown5[7];
     static Note n_Clocktown6[8];
     static Note n_Clocktown7[7];
+    static Note n_Clocktown8[11];
 
     static Motif* m_ClocktownB1;
+    static Motif* m_ClocktownB2;
+    static Motif* m_ClocktownB3;
     static Motif* m_Clocktown1;
     static Motif* m_Clocktown2;
     static Motif* m_Clocktown3;
@@ -116,9 +121,10 @@ class Songbook {
     static Motif* m_Clocktown5;
     static Motif* m_Clocktown6;
     static Motif* m_Clocktown7;
+    static Motif* m_Clocktown8;
 
-    static Motif* s_Clocktown[17];
-    static Motif* s_ClocktownBass[6];
+    static Motif* s_Clocktown[35];
+    static Motif* s_ClocktownBass[11];
 
   public:
     static Song Clocktown;
@@ -129,6 +135,15 @@ Note Songbook::n_ClocktownB1[15] = {
   Note(0, 96), Note(-1, 48), Note(126, 48), Note(-3, 96), Note(-1, 48), Note(126, 48), // x6
   Note(0, 96), Note(-1, 48), Note(126, 48), Note(-3, 40), Note(126, 8), Note(-1, 16), Note(126, 32), Note(0, 48), Note(126, 48) // x9
 };
+Note Songbook::n_ClocktownB2[14] = {
+  Note(12, 96), Note(11, 16), Note(126, 80), Note(9, 96), Note(7, 16), Note(126, 80),
+  Note(12, 96), Note(11, 16), Note(126, 32), Note(9, 40), Note(126, 8), Note(7, 96), Note(5, 32), Note(126, 64)
+};
+Note Songbook::n_ClocktownB3[10] = {
+  Note(12, 96), Note(11, 16), Note(126, 80), Note(17, 96), Note(16, 16), Note(126, 80),
+  Note(16, 96), Note(15, 96), Note(14, 96 + 48), Note(126, 48)
+};
+
 Note Songbook::n_Clocktown1[8] = {
   Note(126, 96), Note(126, 96), Note(126, 96), Note(126, 96), Note(126, 96), Note(126, 96), Note(126, 96), Note(126, 96) // x8
 };
@@ -150,8 +165,14 @@ Note Songbook::n_Clocktown6[8] = {
 Note Songbook::n_Clocktown7[7] = {
   Note(17, 16), Note(16, 16), Note(17, 16), Note(16, 32), Note(11, 16), Note(12, 48), Note(126, 48) // x7
 };
+Note Songbook::n_Clocktown8[11] = {
+  Note(126, 96), Note(126, 96), Note(126, 96), Note(126, 96),
+  Note(126, 96), Note(126, 96), Note(126, 32), Note(7 + 12, 16), Note(19 + 12, 32), Note(7 + 12, 16), Note(19 + 12, 96)
+};
 
 Motif* Songbook::m_ClocktownB1 = new Motif(n_ClocktownB1, 15);
+Motif* Songbook::m_ClocktownB2 = new Motif(n_ClocktownB2, 14);
+Motif* Songbook::m_ClocktownB3 = new Motif(n_ClocktownB3, 10);
 Motif* Songbook::m_Clocktown1 = new Motif(n_Clocktown1, 8);
 Motif* Songbook::m_Clocktown2 = new Motif(n_Clocktown2, 7);
 Motif* Songbook::m_Clocktown3 = new Motif(n_Clocktown3, 8);
@@ -159,27 +180,44 @@ Motif* Songbook::m_Clocktown4 = new Motif(n_Clocktown4, 7);
 Motif* Songbook::m_Clocktown5 = new Motif(n_Clocktown5, 7);
 Motif* Songbook::m_Clocktown6 = new Motif(n_Clocktown6, 8);
 Motif* Songbook::m_Clocktown7 = new Motif(n_Clocktown7, 7);
+Motif* Songbook::m_Clocktown8 = new Motif(n_Clocktown8, 11);
 
-Motif* Songbook::s_ClocktownBass[6] = {
+Motif* Songbook::s_ClocktownBass[11] = {
   m_ClocktownB1,
+
   m_ClocktownB1,
   m_ClocktownB1,
 
   m_ClocktownB1,
+  m_ClocktownB1,
+
+  m_ClocktownB2, m_ClocktownB3,
+
+  m_ClocktownB1,
+  m_ClocktownB1,
+
   m_ClocktownB1,
   m_ClocktownB1
 };
-Motif* Songbook::s_Clocktown[17] = {
+Motif* Songbook::s_Clocktown[35] = {
   m_Clocktown1,
   m_Clocktown2, m_Clocktown3, m_Clocktown2, m_Clocktown4,
-    m_Clocktown2, m_Clocktown3, m_Clocktown2, m_Clocktown4,
-  
-    m_Clocktown5, m_Clocktown6, m_Clocktown5, m_Clocktown7,
-    m_Clocktown5, m_Clocktown6, m_Clocktown5, m_Clocktown7
+  m_Clocktown2, m_Clocktown3, m_Clocktown2, m_Clocktown4,
+
+  m_Clocktown5, m_Clocktown6, m_Clocktown5, m_Clocktown7,
+  m_Clocktown5, m_Clocktown6, m_Clocktown5, m_Clocktown7,
+  m_Clocktown1,                             m_Clocktown8,
+
+  m_Clocktown2, m_Clocktown3, m_Clocktown2, m_Clocktown4,
+  m_Clocktown2, m_Clocktown3, m_Clocktown2, m_Clocktown4,
+
+  m_Clocktown5, m_Clocktown6, m_Clocktown5, m_Clocktown7,
+  m_Clocktown5, m_Clocktown6, m_Clocktown5, m_Clocktown7
+
 };
 
-Song Songbook::ClocktownBass = Song(s_ClocktownBass, 6, 90, 8);
-Song Songbook::Clocktown = Song(s_Clocktown, 17, 90, 8);
+Song Songbook::ClocktownBass = Song(s_ClocktownBass, 11, 90, 8);
+Song Songbook::Clocktown = Song(s_Clocktown, 35, 90, 8);
 
 /* MORE DECLARATIONS*/
 void setKey(char);
@@ -251,6 +289,7 @@ void playSong(Song song, char channel) {
   playingSong[channel] = true;
 }
 void setup() {
+  Serial.begin(9600);
   setKey('C'); // C D E F G A B
   /* TIMER STUFF */
   /* First disable the timer overflow interrupt*/
@@ -324,7 +363,7 @@ ISR(TIMER2_OVF_vect) {
       countd[1] = 0;
       countf[1] = 0;
 
-      /* BASICALLY AN TRANS-INTERRUPT FOR LOOP... OH BOY */
+      /* BASICALLY A TRANS-INTERRUPT FOR LOOP... OH BOY */
       // figures out what note to play next or if the song should end
       if (noteIndex[1] < songChannel[1].motifs[motifIndex[1]]->length) { // same motif as before, next note
       } else { // next motif
@@ -340,7 +379,7 @@ ISR(TIMER2_OVF_vect) {
       } else {
         currentNote = &songChannel[1].motifs[motifIndex[1]]->notes[noteIndex[1]];
         duration[1] = (currentNote->duration) * beatInMilliseconds / noteIsOneBeat * 1000 / SPEEDCONST;
-        freq[1] = (currentNote->distance == '~' /* ascii code 126*/ ) ? 126 : getMicros(getFreq(currentNote->distance)); // 126? rest if true, normal frequency if not
+        freq[1] = (currentNote->distance == '~' /* ascii code 126 */ ) ? 126 : getMicros(getFreq(currentNote->distance)); // 126? rest if true, normal frequency if not
         noteIndex[1]++;
       }
     }
@@ -369,7 +408,6 @@ ISR(TIMER2_OVF_vect) {
         motifIndex[0]++;
         noteIndex[0] = 0;
       }
-      Serial.println(length[0]);
       if (motifIndex[0] == length[0]) { // end of song
         freq[0] = 126;
         playingSong[0] = false;
