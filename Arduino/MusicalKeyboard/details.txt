@@ -2,4 +2,4 @@ MusicalKeyboard uses a PS/2 computer keyboard to play notes out of a piezoelectr
 
 I used the PS2Keyboard library found at http://playground.arduino.cc/Main/PS2Keyboard to let the Arduino easily read the button presses as character input. The Arduino interprets the character pressed as a number n semitones away from a base frequency (I used E3 to make it sound similar to a guitar, with each row of the keyboard acting like one of its strings). This frequency is then sent to the speaker. The space bar works as a "rest" to make the keyboard stop playing.
 
-I used a non-logarithmic formula found at http://www.phy.mtu.edu/~suits/NoteFreqCalcs.html in tandem with the Arduino's math library to calculate the frenquency sent to the speaker.
+I used a formula found at http://www.phy.mtu.edu/~suits/NoteFreqCalcs.html in tandem with the Arduino's math library to calculate the frenquency sent to the speaker.
