@@ -16,7 +16,12 @@ By doing this with multiple pins each call of the interrupt, multiple frequencie
 
 ------------------------------------------------------------------------------------------------------
 
-Song 001 is "Clock Town" from The Legend of Zelda: Majora's Mask, 010 is "Dragon Dances" by Soon Hee Newbold, and 100 is an original baseline inspired by "Dragon Dances" that I use for simultaneous playing with my guitar.
+Songs:
+001: "Clock Town" from The Legend of Zelda: Majora's Mask
+010: "Dragon Dances" by Soon Hee Newbold
+100: An original baseline inspired by "Dragon Dances" that I use for simultaneous playing with my guitar
+110: "Zelda's Lullaby" from The Legend of Zelda: Ocarina of Time
+101: "The Bannered Mare" from The Elder Scrolls V: Skyrim
 
 The wiring of Melody 2 is backwards-compatable with Melody, so the latter's code will run on the same board.
 
