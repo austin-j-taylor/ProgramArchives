@@ -162,6 +162,18 @@ class Songbook {
     static Note n_Dragons8[20];
 //    static Note n_Dragons9[1];
 
+    static Note n_HuntREST1[4];
+    static Note n_HuntB1[4];
+    static Note n_HuntB2[5];
+    static Note n_HuntB3[5];
+    static Note n_HuntB4[5];
+    static Note n_HuntB5[6];
+    static Note n_Hunt1[5];
+    static Note n_Hunt2[4];
+    static Note n_Hunt3[5];
+    static Note n_Hunt4[5];
+    static Note n_Hunt5[6];
+
     static Note n_CustomB1[6];
     //    static Note n_CustomB2[x];
     static Note n_CustomB3[4];
@@ -223,6 +235,18 @@ class Songbook {
     static Motif* m_Dragons8;
 //    static Motif* m_Dragons9;
 
+    static Motif* m_HuntREST1;
+    static Motif* m_HuntB1;
+    static Motif* m_HuntB2;
+    static Motif* m_HuntB3;
+    static Motif* m_HuntB4;
+    static Motif* m_HuntB5;
+    static Motif* m_Hunt1;
+    static Motif* m_Hunt2;
+    static Motif* m_Hunt3;
+    static Motif* m_Hunt4;
+    static Motif* m_Hunt5;
+
     static Motif* m_CustomB1;
     //    static Motif* m_CustomB2;
     static Motif* m_CustomB3;
@@ -238,6 +262,9 @@ class Songbook {
     static Motif* s_DragonsBass[46];
     static Motif* s_Dragons[36];
 
+    static Motif* s_HuntBass[13];
+    static Motif* s_Hunt[17];
+
     static Motif* s_CustomBass[12];
     // ----------------------------------
   public:
@@ -250,6 +277,9 @@ class Songbook {
 
     static Song DragonsBass;
     static Song Dragons;
+
+    static Song HuntBass;
+    static Song Hunt;
 
     static Song CustomBass;
 };
@@ -438,6 +468,39 @@ Note Songbook::n_Dragons8[20] = {
 //  Note(0, 64)
 //};
 
+Note Songbook::n_HuntREST1[4] = {
+  Note(126, 96), Note(126, 96), Note(126, 96), Note(126, 96)
+};
+Note Songbook::n_HuntB1[4] = {
+  Note(0, 96), Note(2, 96), Note(3, 96), Note(2, 96)
+};
+Note Songbook::n_HuntB2[5] = {
+  Note(0, 80), Note(2, 16), Note(3, 32), Note(2, 32), Note(3, 32)
+};
+Note Songbook::n_HuntB3[5] = {
+  Note(0, 80), Note(3, 16), Note(7, 32), Note(6, 32), Note(7, 32)
+};
+Note Songbook::n_HuntB4[5] = {
+  Note(7, 80), Note(6, 16), Note(7, 32), Note(12, 32), Note(8, 32)
+};
+Note Songbook::n_HuntB5[6] = {
+  Note(7, 32), Note(6, 32), Note(7, 48), Note(7, 32), Note(7, 32), Note(7, 96)
+};
+Note Songbook::n_Hunt1[5] = {
+  Note(12, 48), Note(14, 48), Note(15, 32), Note(14, 32), Note(15, 32)
+};
+Note Songbook::n_Hunt2[4] = {
+  Note(12, 48), Note(15, 48), Note(19, 96), Note(19, 0)
+};
+Note Songbook::n_Hunt3[5] = {
+  Note(12, 48), Note(15, 48), Note(19, 32), Note(18, 32), Note(19, 32)
+};
+Note Songbook::n_Hunt4[5] = {
+  Note(19, 32), Note(18, 32), Note(19, 32), Note(24, 32), Note(20, 64)
+};
+Note Songbook::n_Hunt5[6] = {
+  Note(19, 32), Note(18, 32), Note(19, 48), Note(19, 32), Note(18, 32), Note(19, 96)
+};
 Note Songbook::n_CustomB1[6] = {
   Note(12, 64), Note(10, 64), Note(9, 64), Note(7, 32), Note(9, 16), Note(10, 16)
 };
@@ -506,6 +569,18 @@ Motif* Songbook::m_Dragons7a = new Motif(n_Dragons7a, 3);
 Motif* Songbook::m_Dragons7b = new Motif(n_Dragons7b, 19);
 Motif* Songbook::m_Dragons8 = new Motif(n_Dragons8, 20);
 //Motif* Songbook::m_Dragons9 = new Motif(n_Dragons9, 1);
+
+Motif* Songbook::m_HuntREST1 = new Motif(n_HuntREST1, 4);
+Motif* Songbook::m_HuntB1 = new Motif(n_HuntB1, 4);
+Motif* Songbook::m_HuntB2 = new Motif(n_HuntB2, 5);
+Motif* Songbook::m_HuntB3 = new Motif(n_HuntB3, 5);
+Motif* Songbook::m_HuntB4 = new Motif(n_HuntB4, 5);
+Motif* Songbook::m_HuntB5 = new Motif(n_HuntB5, 6);
+Motif* Songbook::m_Hunt1 = new Motif(n_Hunt1, 5);
+Motif* Songbook::m_Hunt2 = new Motif(n_Hunt2, 4);
+Motif* Songbook::m_Hunt3 = new Motif(n_Hunt3, 5);
+Motif* Songbook::m_Hunt4 = new Motif(n_Hunt4, 5);
+Motif* Songbook::m_Hunt5 = new Motif(n_Hunt5, 6);
 
 Motif* Songbook::m_CustomB1 = new Motif(n_CustomB1, 6);
 //Motif* Songbook::m_CustomB2 = new Motif(n_CustomB2, x);
@@ -599,6 +674,19 @@ Motif* Songbook::s_Dragons[36] = {
 
 };
 
+Motif* Songbook::s_HuntBass[13] = {
+  m_HuntB1, m_HuntB1,                                     //m_HuntB1, m_HuntB1,
+  
+  m_HuntB1, m_HuntB1,                                     m_HuntB1, m_HuntB1,
+  m_HuntB2, m_HuntB3, m_HuntB3, m_HuntB4,                 m_HuntB2, m_HuntB3, m_HuntB5,
+};
+Motif* Songbook::s_Hunt[17] = {
+  m_HuntREST1, m_HuntREST1,                               //m_HuntREST1, m_HuntREST1,
+  
+  m_Hunt1, m_Hunt2, m_Hunt1, m_Hunt2,                     m_Hunt1, m_Hunt2, m_Hunt1, m_Hunt2,
+  m_Hunt1, m_Hunt3, m_Hunt1, m_Hunt4,                     m_Hunt1, m_Hunt3, m_Hunt5
+};
+
 Motif* Songbook::s_CustomBass[12] = {
   m_CustomB1, m_CustomB1, m_CustomB1, m_CustomB3,
 
@@ -616,6 +704,9 @@ Song Songbook::ZeldasLullaby = Song(s_ZeldasLullaby, 8, 60, 4);
 
 Song Songbook::DragonsBass = Song(s_DragonsBass, 46, 105, 4);
 Song Songbook::Dragons = Song(s_Dragons, 36, 105, 4);
+
+Song Songbook::HuntBass = Song(s_HuntBass, 13, 100, 8);
+Song Songbook::Hunt = Song(s_Hunt, 17, 100, 8);
 
 Song Songbook::CustomBass = Song(s_CustomBass, 12, 90, 4);
 // -----------------------------------------------------------------------------------------------------------------------------------
@@ -873,7 +964,7 @@ void loop() {
   // comments beside conditionals show what button presses activate that conditional
   if (!playingSong[0] && !playingSong[1]) {
     if (digitalRead(4) == HIGH || digitalRead(5) == HIGH || digitalRead(8) == HIGH) {
-      delay(100);
+      delay(200);
       int state4 = digitalRead(4);
       int state5 = digitalRead(5);
       int state8 = digitalRead(8);
@@ -881,8 +972,14 @@ void loop() {
         if (state5 == HIGH) //YY_
           if (state8 == HIGH) {} //YYY
       //          tone(pin[0], 880);
-          else {} //YYN
-      //          tone(pin[0], 660);
+          else { //YYN
+//            setMeter(Songbook::Dragons);
+//            playSong(Songbook::Dragons, 0);
+//            playSong(Songbook::DragonsBass, 1);
+            setMeter(Songbook::Hunt);
+            playSong(Songbook::Hunt, 0);
+            playSong(Songbook::HuntBass, 1);
+          }
         else //YN_
           if (state8 == HIGH) { //YNY
             setMeter(Songbook::BanneredMare);
