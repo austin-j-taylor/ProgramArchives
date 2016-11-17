@@ -25,7 +25,7 @@ void Dagger::setMaterialExamine(Material material) {
 			break;
 		}
 		case 2: {
-			setExamineText("a stupid, wooden dagger.");
+			setExamineText("a lame, wooden dagger.");
 			break;
 		}
 		case 3: {

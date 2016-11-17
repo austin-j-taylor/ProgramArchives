@@ -6,8 +6,6 @@
 #include <string>
 #include <algorithm>
 
-using namespace std;
-
 #define windowWidth 100
 
 enum Styles { Slash, Stab, Crush, Bash, Block, Parry, Hurl };
@@ -15,6 +13,7 @@ enum Usages { Use, Eat, Equip, Unequip, Examine };
 enum Stats { None, Hp, HpMod, MaxHp, Str, StrMod, Def, DefMod, Dex, DexMod, Agil, AgilMod };
 
 #include "text.hpp"
+
 
 #include "Item\Effect\Effect.hpp"
 #include "Item\Effect\ActiveEffects.hpp"
@@ -53,5 +52,4 @@ enum Stats { None, Hp, HpMod, MaxHp, Str, StrMod, Def, DefMod, Dex, DexMod, Agil
 #include "Field\Field.hpp"
 #include "Field\CombatField.hpp"
 
-#include <fstream>
 #include "Screen\Menu.hpp"

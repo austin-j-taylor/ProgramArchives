@@ -97,6 +97,7 @@ public:
 		pobj = (gender == 0) ? "him" : (gender == 1) ? "her" : "it";
 		ppos = (gender == 0) ? "his " : (gender == 1) ? "her " : "its ";
     }
+
     virtual void setHp(int nHp) { hp = nHp; }
     virtual void setMaxHp(int nMaxHp) { maxHp = nMaxHp; }
     virtual void setStr(int nStr) { str = nStr; }
@@ -158,18 +159,20 @@ public:
     
 };
 Character::Character(string nName = "Character", string nIntro = "a Character appears.", string nAnalyze = "an untamed Character.",
-		short nGender = 0, int nHp = -1, int nStr = -2, int nDef = -3, int nDex = -4, int nAgil = -5,
-		Item* EHE = new Item(), int nHpMod = -7, int nStrMod = -8, int nDefMod = -9, int nDexMod = -10, int nAgilMod = -11)
+		short nGender = 0, int nHp = 10, int nStr = 10, int nDef = 10, int nDex = 10, int nAgil = 10,
+		Item* EHE = new Item(), int nHpMod = 0, int nStrMod = 0, int nDefMod = 0, int nDexMod = 0, int nAgilMod = 0)
     : name(nName), intro(nIntro), analyze(nAnalyze), gender(nGender), emptyHandedEquip(EHE), isBlocking(false), isParrying(false),
 	  hp(nHp), maxHp(nHp), str(nStr), def(nDef), dex(nDex), agil(nAgil), hpMod(nHpMod), strMod(nStrMod), defMod(nDefMod), dexMod(nDexMod), agilMod(nAgilMod) {
-    println("char constructor");
-	setPronouns(nGender);
-    setArmCount(2);
+
+	psub = (gender == 0) ? "he " : (gender == 1) ? "she " : "it ";
+	pobj = (gender == 0) ? "him" : (gender == 1) ? "her" : "it";
+	ppos = (gender == 0) ? "his " : (gender == 1) ? "her " : "its ";
 
     bag = new Bag();
     activeEffects = new ActiveEffects();
     equippedArms = new Bag();
     equippedArms->addItem(getEHE());
+    setArmCount(2);
 }
 
 bool Character::getIsBlocking() {
