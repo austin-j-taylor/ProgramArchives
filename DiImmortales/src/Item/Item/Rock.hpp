@@ -4,7 +4,7 @@ using namespace std;
 
 class Rock : public Item {
 public:
-	Rock(Material nMaterial = Basic(), string nName = "rock", string nExamine = "A blank-faced rock.")
+	Rock(Material nMaterial = Basic(), string nName = "rock", string nExamine = "The president of Night Vale Community College. She is also a smooth, fist-sized river rock.")
 		: Item(nMaterial, nName, 1, nExamine, false) {
 		setaCrush(1.2);
 		setaHurl(1.8);

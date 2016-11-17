@@ -26,7 +26,7 @@ void Longsword::setMaterialExamine(Material material) {
 			break;
 		}
 		case 2: {
-			setExamineText("a shitty, wooden sword.");
+			setExamineText("a stupid, wooden sword.");
 			break;
 		}
 		case 3: {
@@ -34,7 +34,7 @@ void Longsword::setMaterialExamine(Material material) {
 			break;
 		}
 		case 4: {
-			setExamineText("An elegant steel longsword. It's got a dragon or some shit around the hilt.");
+			setExamineText("An elegant steel longsword. It's got a dragon or something around the hilt.");
 			break;
 		}
 	}

@@ -5,6 +5,7 @@ class Field {
 public:
 	Field() {}
     static int choice(vector<string> options, string message, bool isBackAnOption);
+    static string choice(string message);
     virtual int choice(vector<Character*>& enemies) {}
 private:
     
@@ -58,4 +59,10 @@ int Field::choice(vector<string> options, string message = "", bool isBackAnOpti
     }
     println("error: Field::choice(arg, arg)");
     return -999;
+}
+string Field::choice(string message = "") {
+    if(message.size() != 0) cout << message << endl;
+    string input;
+    getline(cin, input);
+    return input;
 }

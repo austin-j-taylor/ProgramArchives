@@ -24,6 +24,8 @@ CombatField::CombatField(Character* loadedAttacker = new Character()) {
 void CombatField::startCombat(vector<Character*>& enemies) {
 	// first turn of the battle, print out intros:
 	println(string(windowWidth, '-'));
+	println(attacker->getIntro());
+	println("HP: " + tostring(attacker->getTHp()) + "/" + tostring(attacker->getTMaxHp()));
     for(auto enemy : enemies) {
         println(enemy->getIntro());
     }
@@ -432,7 +434,7 @@ int ItemField::choice(vector<Character*>& enemies) {
     	enemyShouldReact = true;
 	} else println("\n\nsomething bad happened. ItemField::choice.\n");
 
-    return (enemyShouldReact) ? -1 : 0; // -1 for true, 0 for false. don't fucking question my boolean logic.
+    return (enemyShouldReact) ? -1 : 0; // -1 for true, 0 for false. don't question my boolean logic.
 }
 
 class MercyField : public Field {

@@ -18,6 +18,7 @@ private:
     // note: int hp corresponds to current hp; int maxHp and int hpMod are used for potential maximum health. getTHp() returns (hp + hpMod).
     //		-> if you have 30 hp and 10 hpMod, THp is 40; if you get hit for 35 points, hp is -5 and hpMod is still 10.
     //			-> if you remove whatever armor/item/etc. is buffing your hpMod, you'll immediately die.
+    short gender; // used in constructors
     int hp;
     int maxHp;
     int str;
@@ -31,7 +32,6 @@ private:
     int agilMod;
     bool isBlocking;
     bool isParrying;
-    short gender; // used in constructors
     string psub; // subject: he, she, it
     string pobj; // object: him, her, it
     string ppos; // possessive: his, her, its
@@ -91,6 +91,12 @@ public:
     virtual string getPobj() { return pobj; }
     virtual string getPpos() { return ppos; }
     
+    virtual void setGender(short nGender) { gender = nGender; }
+    virtual void setPronouns(short nGender) {
+		psub = (gender == 0) ? "he " : (gender == 1) ? "she " : "it ";
+		pobj = (gender == 0) ? "him" : (gender == 1) ? "her" : "it";
+		ppos = (gender == 0) ? "his " : (gender == 1) ? "her " : "its ";
+    }
     virtual void setHp(int nHp) { hp = nHp; }
     virtual void setMaxHp(int nMaxHp) { maxHp = nMaxHp; }
     virtual void setStr(int nStr) { str = nStr; }
@@ -152,20 +158,17 @@ public:
     
 };
 Character::Character(string nName = "Character", string nIntro = "a Character appears.", string nAnalyze = "an untamed Character.",
-		short nGender = 0, int nHp = 10, int nStr = 10, int nDef = 10, int nDex = 10, int nAgil = 10,
-		Item* EHE = new Item(), int nHpMod = 0, int nStrMod = 0, int nDefMod = 0, int nDexMod = 0, int nAgilMod = 0)
+		short nGender = 0, int nHp = -1, int nStr = -2, int nDef = -3, int nDex = -4, int nAgil = -5,
+		Item* EHE = new Item(), int nHpMod = -7, int nStrMod = -8, int nDefMod = -9, int nDexMod = -10, int nAgilMod = -11)
     : name(nName), intro(nIntro), analyze(nAnalyze), gender(nGender), emptyHandedEquip(EHE), isBlocking(false), isParrying(false),
 	  hp(nHp), maxHp(nHp), str(nStr), def(nDef), dex(nDex), agil(nAgil), hpMod(nHpMod), strMod(nStrMod), defMod(nDefMod), dexMod(nDexMod), agilMod(nAgilMod) {
-
-	// have fun burning in hell, whoever decides to read these abso-fucking-lutely useless usages of the ternary operator
-	psub = (gender == 0) ? "he " : (gender == 1) ? "she " : "it ";
-	pobj = (gender == 0) ? "him" : (gender == 1) ? "her" : "it";
-	ppos = (gender == 0) ? "his " : (gender == 1) ? "her " : "its ";
+    println("char constructor");
+	setPronouns(nGender);
+    setArmCount(2);
 
     bag = new Bag();
     activeEffects = new ActiveEffects();
     equippedArms = new Bag();
-    setArmCount(2);
     equippedArms->addItem(getEHE());
 }
 
@@ -237,7 +240,7 @@ void Character::putInBag(Item* item) {
 }
 
 int Character::attack(Character* target, Item* weapon, Style style, bool isEquipped = true) { // return 0 if target is dead, 1 if alive
-	if(activeEffects->indexOf("stunned") != -1) {// attacker is stunned and can do jack shit (only applies to enemies; player is checked for being stunned beforehand.)
+	if(activeEffects->indexOf("stunned") != -1) {// attacker is stunned and can do nothing (only applies to enemies; player is checked for being stunned beforehand.)
 		println(name + " is still recovering.");
 		return 2;
 	}
