@@ -10,6 +10,8 @@ using namespace std;
  *
 // HIGH-PRIORITY
  *
+ * create Options option in battle choices; save data
+ * allow character creation
  *
  * finish usages functions for Character and Item, consumables
  * finish Effect system
@@ -49,7 +51,7 @@ int main() {
     			string name = Field::choice("Enter a name.");
     			//save file
 
-    		    player = new Player(name, "playermessage", 1, 70, 10, 10, 10, 15); // temporary default values
+    		    player = new Player(name, "Default Player Message", 1, 70, 10, 10, 10, 15); // temporary default values
     			break;
     		}
     		case 1: { // load character

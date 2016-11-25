@@ -101,29 +101,21 @@ public:
     virtual void setHp(int nHp) { hp = nHp; }
     virtual void setMaxHp(int nMaxHp) { maxHp = nMaxHp; }
     virtual void setStr(int nStr) { str = nStr; }
-    virtual void setDef(int nDef) { str = nDef; }
-    virtual void setDex(int nDex) { hp = nDex; }
+    virtual void setDef(int nDef) { def = nDef; }
+    virtual void setDex(int nDex) { dex = nDex; }
     virtual void setAgil(int nAgil) { agil = nAgil; }
-    virtual void setHpMod(int nHpMod) { hp = nHpMod; }
-    virtual void setStrMod(int nStrMod) { str = nStrMod; }
-    virtual void setDefMod(int nDefMod) { str = nDefMod; }
-    virtual void setDexMod(int nDexMod) { hp = nDexMod; }
-    virtual void setAgilMod(int nAgilMod) { agil = nAgilMod; }
+    virtual void setHpMod(int nHpMod) { hpMod = nHpMod; }
+    virtual void setStrMod(int nStrMod) { strMod = nStrMod; }
+    virtual void setDefMod(int nDefMod) { defMod = nDefMod; }
+    virtual void setDexMod(int nDexMod) { dexMod = nDexMod; }
+    virtual void setAgilMod(int nAgilMod) { agilMod = nAgilMod; }
     virtual void setName(string nName) { name = nName; }
     virtual void setIntro(string nIntro) { intro = nIntro; }
     virtual void setAnalyze(string nAnalyze) { analyze = nAnalyze; }
     virtual void setIsBlocking(bool isBlock);
     virtual void setIsParrying(bool isBlock, Character*);
     virtual void setArmCount(int c) { equippedArms->setMaxSize(c); }
-//    virtual int loseHp(int loss) {
-//        hp -= loss;
-//        return hp;
-//    }
-//    virtual int healHp(int gain) {
-//        hp += gain;
-//        return hp;
-//    }
-    
+
     virtual int use(Item* item);
     virtual int eat(Item* item);
     virtual int equip(Item* item, bool);
