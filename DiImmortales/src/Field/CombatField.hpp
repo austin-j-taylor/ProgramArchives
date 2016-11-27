@@ -6,22 +6,18 @@ using namespace std;
 class CombatField : public Field {
 public:
     CombatField(Character*);
-    void startCombat(vector<Character*>& enemies);
+    int startCombat(vector<Character*>& enemies);
     int turnOfBattle(vector<Character*>& enemies);
     
-//    virtual int choice(vector<Character*>& enemies) {}
-    
     Field* parseField(string choice);
-//    void parseUsage(string choice);
 private:
-    const vector<string> options { "Fight", "Act", "Item", "Seek Mercy" };
+    const vector<string> options { "Fight", "Act", "Item", "Seek Mercy", "Options" };
 };
 CombatField::CombatField(Character* loadedAttacker = new Character()) {
     attacker = loadedAttacker;
-    
 }
 // initiates start of combat
-void CombatField::startCombat(vector<Character*>& enemies) {
+int CombatField::startCombat(vector<Character*>& enemies) {
 	// first turn of the battle, print out intros:
 	println(string(windowWidth, '-'));
 	println(attacker->getIntro());
@@ -62,7 +58,9 @@ void CombatField::startCombat(vector<Character*>& enemies) {
 	println(string(windowWidth, '-'));
 	// one turn of the fight executes
 	startOfTurn:
-	turnOfBattle(enemies);
+	int result = turnOfBattle(enemies);
+	if(result == -3)
+		return -3;
 
 
 	// tests to see if all enemies are dead after that turn; if anyone's alive, go back to the start of a turn.
@@ -72,7 +70,7 @@ void CombatField::startCombat(vector<Character*>& enemies) {
 		if(!enemy->isDead())
 			goto notFirstTurn;
 	}
-	// all enemies are dead:
+
 
 };
 int CombatField::turnOfBattle(vector<Character*>& enemies) {
@@ -88,6 +86,7 @@ int CombatField::turnOfBattle(vector<Character*>& enemies) {
 		int subChoice = field->choice(enemies);
 		if(subChoice == 0) return 999; // ignores rest of function, enemyShouldReact was false
 		if(subChoice == -2) goto start; // goes back to selecting main options
+		if(subChoice == -3) return -3; // goes back to main menu
 	} else { // attacker is stunned
 		Field::choice(vector<string> { "Stand around dazedly" }, "You are stunned.", false);
 	}
@@ -195,7 +194,7 @@ int FightField::choice(vector<Character*>& enemies) {
     
     //choose weapon (choose from equippedArms)
     weapon:
-    int choiceWeapon = Field::choice(weaponNames, "Choose a weapon.");
+    int choiceWeapon = Field::choice(weaponNames, "Choose a weapon (Hint: there may be some in your bag!)");
     if(choiceWeapon == -2) return -2;
 
     //find potential style names based on weapon for choice
@@ -328,7 +327,7 @@ void ActField::analyze(vector<Character*>& enemies) {
 		}
 	}
 	else print("None.");
-	println("\n");
+	println();
 
 }
 string ActField::rel(double n1, double n2) {
@@ -447,6 +446,112 @@ int MercyField::choice(vector<Character*>& enemies) {
     
     return 1;
 }
+class OptionsField : public Field {
+public:
+	OptionsField() {}
+	int choice(vector<Character*>& enemies);
+};
+int OptionsField::choice(vector<Character*>& enemies) {
+	start:
+	vector<string> choices = { "Stats", "Save and Quit", "Quit without saving" };
+	int choice = Field::choice(choices);
+	if(choice == 2) { // quit without saving
+		choices = { "YES", "NO" };
+		int choice = Field::choice(choices, "Really quit without saving?", false);
+		if(choice == 1)
+			goto start;
+		choices = { "Return to main menu", "Quit" };
+		choice = Field::choice(choices, "", true);
+		if(choice == 0) // return to main menu
+			return -3;
+		// quit game
+	    exit(0);
+	}
+	if(choice == -2)
+		return -2;
+	if(choice == 0) { // show player stats
+		println(string(windowWidth, '-'));
+		print(attacker->getName());
+		if(attacker->getActiveEffects()->getCount() != 0) {
+			print(" - ");
+			for(int i = 0; i < attacker->getActiveEffects()->getCount(); i++) {
+				print(attacker->getActiveEffects()->getEffects()[i]->getName());
+				if(i != attacker->getActiveEffects()->getCount() - 1)
+					print(", ");
+			}
+		}
+		println();
+		println(attacker->getAnalyze());
+		println();
+		println("Health: " + tostring(attacker->getTHp())+ "/" + tostring(attacker->getTMaxHp()));
+		println("Strength: " + tostring(attacker->getTStr()));
+		println("Defense: " + tostring(attacker->getTDef()));
+		println("Dexterity: " + tostring(attacker->getTDex()));
+		println("Agility: " + tostring(attacker->getTAgil()));
+		println("Weight: " + tostring(attacker->getTWeight()));
+		println();
+		print("Equipped arms: ");
+		if(attacker->getEquippedArms()->itemAt(0) != attacker->getEHE()) {
+			for(int i = 0; i < attacker->getEquippedArms()->getSize(); i++) {
+				print(attacker->getEquippedArms()->itemAt(i)->getName());
+				if(i != attacker->getEquippedArms()->getSize() - 1) {
+					print(", ");
+				}
+			}
+		}
+		else print("None.");
+		println();
+		println(string(windowWidth, '-'));
+		return -1;
+	} else { // SAVE and QUIT the game
+
+		//load file names
+		ifstream savesIndex;
+		string str;
+		savesIndex.open("fileData/savesIndex.txt");
+		int saveCount = 1;
+		while(getline(savesIndex, str)) {
+			if(str == attacker->getName())
+				break;
+			saveCount++;
+		}
+		savesIndex.close();
+
+		vector<string> choices = { "YES", "NO" };
+		int choice = Field::choice(choices, "Really save and quit?", false);
+		if(choice == 1)
+			return -2;
+		//yes, really save and quit
+		string fileDir;
+		ofstream file;
+		// save armaments:
+		fileDir = "fileData/saves/" + attacker->getName() + "/arms.txt";
+		file.open(fileDir.c_str());
+		Menu::overriteSaveArms(attacker, &file);
+		file.close();
+		// save bag:
+		fileDir = "fileData/saves/" + attacker->getName() + "/bag.txt";
+		file.open(fileDir.c_str());
+		Menu::overriteSaveBag(attacker, &file);
+		file.close();
+		// save stats:
+		fileDir = "fileData/saves/" + attacker->getName() + "/stats.txt";
+		file.open(fileDir.c_str());
+		Menu::overriteSaveStats(attacker, &file);
+		file.close();
+
+		// file done saving, close game
+	    println("File saved.");
+		choices = { "Return to main menu", "Quit" };
+		choice = Field::choice(choices, "", true);
+		if(choice == 0) // return to main menu
+			return -3;
+		// quit game
+	    exit(0);
+	}
+
+	return 1;
+}
 
 Field* CombatField::parseField(string choice) {
     Field* field;
@@ -458,6 +563,8 @@ Field* CombatField::parseField(string choice) {
         field = new ItemField;
     } else if(choice == "Seek Mercy") {
         field = new MercyField;
+    } else if(choice == "Options") {
+    	field = new OptionsField;
     }
     
     return field;

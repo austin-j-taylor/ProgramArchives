@@ -1,0 +1,16 @@
+Name
+Intro
+Analyze
+Gender
+hp
+maxhp
+str
+def
+dex
+agil
+hpmod
+strmod
+defmod
+dexmod
+agilmod
+isblocking

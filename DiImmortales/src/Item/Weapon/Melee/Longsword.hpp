@@ -6,6 +6,7 @@ class Longsword : public Weapon {
 public:
 	Longsword(Material nMaterial = Basic(), string nName = "longsword", short nArticle = 3, string nExamine = "a basic longsword.", bool materialExamine = true)
         : Weapon(nMaterial, nName, nArticle, nExamine, materialExamine) {
+		ID = 2;
 		setMaterialExamine(nMaterial);
     	setaSlash(1.8);
     	setaStab(1.4);

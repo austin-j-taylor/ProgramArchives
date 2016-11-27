@@ -9,7 +9,7 @@ private:
 };
 Bronze::Bronze() 
     : Material("bronze") {
-	setID(3);
+	ID = 3;
 	setaSlash(1.2);
 	setaStab(1.3);
 	setaCrush(1.0);

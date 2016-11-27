@@ -10,6 +10,8 @@ private:
 };
 Human::Human()
     : Character() {
+	setEHE(new HumanFist);
+	setArmCount(2);
 }
 Human::Human(string nName, string nIntro, string nAnalyze, short nGender, int nHp, int nStr, int nDef, int nDex, int nAgil, Item* EHE = new HumanFist())
     : Character(nName, nIntro, nAnalyze, nGender, nHp, nStr, nDef, nDex, nAgil, EHE) {

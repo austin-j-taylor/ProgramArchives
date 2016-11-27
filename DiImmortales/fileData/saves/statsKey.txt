@@ -14,4 +14,3 @@ defmod
 dexmod
 agilmod
 isblocking
-isparrying

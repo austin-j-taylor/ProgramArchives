@@ -115,6 +115,13 @@ public:
     virtual void setIsBlocking(bool isBlock);
     virtual void setIsParrying(bool isBlock, Character*);
     virtual void setArmCount(int c) { equippedArms->setMaxSize(c); }
+    virtual void setEHE(Item* item) {
+    	if(equippedArms->getSize() == 1) {
+    		equippedArms->removeItem(emptyHandedEquip);
+        	equippedArms->addItem(item);
+    	}
+    	emptyHandedEquip = item;
+    }
 
     virtual int use(Item* item);
     virtual int eat(Item* item);
@@ -153,13 +160,14 @@ public:
 Character::Character(string nName = "Character", string nIntro = "a Character appears.", string nAnalyze = "an untamed Character.",
 		short nGender = 0, int nHp = 10, int nStr = 10, int nDef = 10, int nDex = 10, int nAgil = 10,
 		Item* EHE = new Item(), int nHpMod = 0, int nStrMod = 0, int nDefMod = 0, int nDexMod = 0, int nAgilMod = 0)
-    : name(nName), intro(nIntro), analyze(nAnalyze), gender(nGender), emptyHandedEquip(EHE), isBlocking(false), isParrying(false),
+    : name(nName), intro(nIntro), analyze(nAnalyze), gender(nGender), /*emptyHandedEquip(EHE),*/ isBlocking(false), isParrying(false),
 	  hp(nHp), maxHp(nHp), str(nStr), def(nDef), dex(nDex), agil(nAgil), hpMod(nHpMod), strMod(nStrMod), defMod(nDefMod), dexMod(nDexMod), agilMod(nAgilMod) {
 
 	psub = (gender == 0) ? "he " : (gender == 1) ? "she " : "it ";
 	pobj = (gender == 0) ? "him" : (gender == 1) ? "her" : "it";
 	ppos = (gender == 0) ? "his " : (gender == 1) ? "her " : "its ";
 
+    emptyHandedEquip = EHE;
     bag = new Bag();
     activeEffects = new ActiveEffects();
     equippedArms = new Bag();
@@ -324,7 +332,7 @@ int Character::attack(Character* target, Item* weapon, Style style, bool isEquip
 				// target deals damage to attacker in a counterattack based off of affParry.
 				int damageParried = (int) (baseDamage * (targetWeapon->getAffinity(Styles::Parry) + targetWeapon->getMaterial().getAffinity(Styles::Parry)));
 				double parryChance = ((getTDex() * target->getTStr()) / (target->getTAgil() * target->getTWeight()));
-				println("[Chance of parrying: " + tostring(parryChance) + "]");
+//				println("[Chance of parrying: " + tostring(parryChance) + "]");
 				if(true) { // target successfully parried
 					if(style != Styles::Hurl) { // not hurling
 						println(name + " " + weapon->getVerb(style) + " " + target->getName() + " with " + getItemTitle(weapon) + weapon->getName()

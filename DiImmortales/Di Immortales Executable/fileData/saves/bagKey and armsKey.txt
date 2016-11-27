@@ -1,0 +1,75 @@
+
+ItemTypeID (LongswordID, DaggerID, etc.)
+MaterialID
+usesMaterialInName(true or false. if true, the item uses its material before its name (i.e. "wooden sword" vs "sword")
+hasSpecialExamine? (true or false. if true, next line is the special examine text. if false, use the material's examine text)
+specialExamine
+hasSpecialName? (true or false. if true, next line is name. if false, the item uses its expected name.)
+specialName
+specialSlash?
+value
+specialCrush?
+value
+specialStab?
+value
+specialBlock?
+value
+specialBash?
+value
+specialParry?
+value
+specialHurl?
+value
+specialWeight?
+value
+NEWLINE/"end" IF ITS THE LAST
+ItemTypeID (LongswordID, DaggerID, etc.)
+MaterialID
+usesMaterialInName(true or false. if true, the item uses its material before its name (i.e. "wooden sword" vs "sword")
+hasSpecialExamine? (true or false. if true, next line is the special examine text. if false, use the material's examine text)
+specialExamine
+hasSpecialName? (true or false. if true, next line is name. if false, skip the next line)
+specialName
+specialSlash?
+value
+specialCrush?
+value
+specialStab?
+value
+specialBlock?
+value
+specialBash?
+value
+specialParry?
+value
+specialHurl?
+value
+specialWeight?
+value
+NEWLINE/"end" IF ITS THE LAST
+ItemTypeID (LongswordID, DaggerID, etc.)
+MaterialID
+usesMaterialInName(true or false. if true, the item uses its material before its name (i.e. "wooden sword" vs "sword")
+hasSpecialExamine? (true or false. if true, next line is the special examine text. if false, use the material's examine text)
+specialExamine
+hasSpecialName? (true or false. if true, next line is name. if false, skip the next line)
+specialName
+specialSlash?
+value
+specialCrush?
+value
+specialStab?
+value
+specialBlock?
+value
+specialBash?
+value
+specialParry?
+value
+specialHurl?
+value
+specialWeight?
+value
+NEWLINE/"end" IF ITS THE LAST
+
+ETC ETC ETC

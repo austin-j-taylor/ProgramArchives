@@ -5,6 +5,7 @@ class Buckler : public Shield {
 public:
 	Buckler(Material nMaterial = Basic(), string nName = "buckler", short nArticle = 3, string nExamine = "It's a buckler shield.", bool materialExamine = true)
 		: Shield(nMaterial, nName, nArticle, nExamine, materialExamine) {
+		ID = 5;
 		setMaterialExamine(nMaterial);
 		setaBash(1.3);
 		setaBlock(1.8);

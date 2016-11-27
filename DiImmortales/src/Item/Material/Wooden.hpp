@@ -9,7 +9,7 @@ private:
 };
 Wooden::Wooden()
     : Material("wooden") {
-	setID(2);
+	ID = 2;
 	setaSlash(.4);
 	setaStab(.2);
 	setaCrush(.6);

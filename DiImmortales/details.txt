@@ -1,0 +1,9 @@
+Di Immortales is a short text-based adventure game (really just a battle simulator).
+
+Play as Diana, Apollo, or Odium who, for whatever reason, feels the need to strike down Hades, Apollo (the Greek one), and Adam Smith, author of The Wealth of Nations.
+
+It has a few bugs here and there, but certainly works and isn't too easy to win.
+
+It has a functional save/load system for data persistence between plays but doesn't provide true boons for winning.
+
+The executable can be found in the "Di Immortales Executable" folder.

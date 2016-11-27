@@ -6,6 +6,7 @@ class Dagger : public Weapon {
 public:
     Dagger(Material nMaterial = Basic(), string nName = "dagger", short nArticle = 3, string nExamine = "a basic dagger.", bool materialExamine = true)
         : Weapon(nMaterial, nName, nArticle, nExamine, materialExamine) {
+    	ID = 3;
     	setMaterialExamine(nMaterial);
     	setvHurl("fired");
     	setaSlash(1.2);

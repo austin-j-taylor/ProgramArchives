@@ -4,7 +4,7 @@ using namespace std;
 class Player : public Human {
 public:
 	Player();
-    Player(string, string, short, int, int, int, int, int);
+    Player(string, string, string, short, int, int, int, int, int);
 	Player(string fileDir); // load from file
     
     void die(Character*, Effect* effect, string);
@@ -16,38 +16,39 @@ private:
 };
 Player::Player()
 	: Human() {}
-Player::Player(string nName, string nIntro, short nGender, int nHp, int nStr, int nDef, int nDex, int nAgil)
-    : Human(nName, nIntro, "", nGender, nHp, nStr, nDef, nDex, nAgil) {
+Player::Player(string nName, string nIntro, string nAnalyze, short nGender, int nHp, int nStr, int nDef, int nDex, int nAgil)
+    : Human(nName, nIntro, nAnalyze, nGender, nHp, nStr, nDef, nDex, nAgil) {
+	Item* ls = new Longsword;
+	this->putInBag(ls);
+	this->equip(ls);
 }
-Player::Player(string fileDir) { // load from file
-	ifstream save;
-	save.open((fileDir + "stats.txt").c_str(), ios_base::in);
+Player::Player(string fileDir) : Human() { // load from file
+	ifstream file;
 
-	string name, intro, analyze, gender, hp, maxHp, str, def, dex, agil, hpMod, strMod, defMod, dexMod, agilMod, isBlocking, isParrying;
-	getline(save, name);
-	getline(save, intro);
-	getline(save, analyze);
-	getline(save, gender);
-	getline(save, hp);
-	getline(save, maxHp);
-	getline(save, str);
-	getline(save, def);
-	getline(save, dex);
-	getline(save, agil);
-	getline(save, hpMod);
-	getline(save, strMod);
-	getline(save, defMod);
-	getline(save, dexMod);
-	getline(save, agilMod);
-	getline(save, isBlocking);
-	getline(save, isParrying);
-
+	// file STATS
+	file.open((fileDir + "stats.txt").c_str(), ios_base::in);
+	string name, intro, analyze, gender, hp, maxHp, str, def, dex, agil, hpMod, strMod, defMod, dexMod, agilMod, isBlocking;
+	getline(file, name);
+	getline(file, intro);
+	getline(file, analyze);
+	getline(file, gender);
+	getline(file, hp);
+	getline(file, maxHp);
+	getline(file, str);
+	getline(file, def);
+	getline(file, dex);
+	getline(file, agil);
+	getline(file, hpMod);
+	getline(file, strMod);
+	getline(file, defMod);
+	getline(file, dexMod);
+	getline(file, agilMod);
+	getline(file, isBlocking);
 	setName(name);
 	setIntro(intro);
 	setAnalyze(analyze);
 	setGender(atoi(gender.c_str()));
 	setPronouns(atoi(gender.c_str()));
-
 	setHp(atoi(hp.c_str()));
 	setMaxHp(atoi(maxHp.c_str()));
 	setStr(atoi(str.c_str()));
@@ -60,7 +61,21 @@ Player::Player(string fileDir) { // load from file
 	setDexMod(atoi(dexMod.c_str())); // dexmod
 	setAgilMod(atoi(agilMod.c_str())); // agilmod
 	setIsBlocking(atoi(isBlocking.c_str())); // isblocking
-	setIsParrying(atoi(isParrying.c_str())); // isparrying
+	file.close();
+
+	setEHE(new HumanFist());
+	// file BAG
+	vector<Item*> bag = Menu::parseItems((fileDir + "bag.txt").c_str());
+	for(Item* item : bag) {
+		this->putInBag(item);
+	}
+	// file ARMS
+	vector<Item*> arms = Menu::parseItems((fileDir + "arms.txt").c_str());
+	for(Item* item : arms) {
+		this->putInBag(item);
+		this->equip(item, false);
+	}
+
 }
 
 void Player::die(Character* enemy = nullptr, Effect* effect = nullptr, string message = "") {

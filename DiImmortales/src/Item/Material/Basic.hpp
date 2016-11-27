@@ -9,5 +9,5 @@ private:
 };
 Basic::Basic() 
     : Material("basic") {
-	setID(1);
+	ID = 1;
 }

@@ -4,8 +4,9 @@ using namespace std;
 class Item {
 private:
     string name;
-    bool materialName;
+    string specialName;
     string examineText;
+    bool usesMaterialName;
     Material material;
     Effect* specialEffect;
 
@@ -20,6 +21,17 @@ private:
     double affParry;
     double affHurl;
     double affWeight;
+
+    bool hasSpecialName = false;
+    bool hasSpecialExamine = false;
+    bool hasSpecialSlash = false;
+    bool hasSpecialCrush = false;
+    bool hasSpecialStab = false;
+    bool hasSpecialBlock = false;
+    bool hasSpecialBash = false;
+    bool hasSpecialParry = false;
+    bool hasSpecialHurl = false;
+    bool hasSpecialWeight = false;
 
     string verbSlash;
     string verbStab;
@@ -39,13 +51,29 @@ private:
 
     short Article;
 public:
-	Item(Material, string);
-    Item(Material, string, string);
+//	Item(Material, string);
+//    Item(Material, string, string);
     Item(Material, string, short, string, bool);
     virtual ~Item() {}
     string getName() {
+//    	if(hasSpecialName)
+//    		return specialName;
+    	if(usesMaterialName)
+			return material.getName() + " " + name;
     	return name;
     }
+    bool getHasSpecialExamine() { return hasSpecialExamine; }
+    bool getHasSpecialName() { return hasSpecialName; }
+    bool getHasSpecialSlash() { return hasSpecialSlash; }
+    bool getHasSpecialCrush() { return hasSpecialCrush; }
+    bool getHasSpecialStab() { return hasSpecialStab; }
+    bool getHasSpecialBlock() { return hasSpecialBlock; }
+    bool getHasSpecialBash() { return hasSpecialBash; }
+    bool getHasSpecialParry() { return hasSpecialParry; }
+    bool getHasSpecialHurl() { return hasSpecialHurl; }
+    bool getHasSpecialWeight() { return hasSpecialWeight; }
+
+    bool getUsesMaterialName() { return usesMaterialName; }
     string getExamineText() { return examineText; }
     virtual double getAffinity(Style style);
     virtual double getWeight() { return affWeight; }
@@ -55,16 +83,32 @@ public:
     virtual string getVerb(Style style);
     virtual string article();
 
+    int ID;
+
     virtual void setName(string ex) { name = ex; }
-    virtual void setExamineText(string ex, bool forceOverride = false) {
-    	if(forceOverride || !!!!!!materialName)
+    virtual void setExamineText(string ex) {
     		examineText = ex;
     }
-    virtual void setMaterialStrings(Material material) {
-    	materialName = true;
-    	name = material.getName() + " " + name;
-    	setMaterialExamine(material);};
+    // overloaded by subclasses
+    virtual void setHasSpecialExamine(bool set) { hasSpecialExamine = set; }
+    virtual void setHasSpecialName(bool set) { hasSpecialName = set; }
+    virtual void sethasSpecialSlash(bool set) { hasSpecialSlash = set; }
+    virtual void sethasSpecialCrush(bool set) { hasSpecialCrush = set; }
+    virtual void sethasSpecialStab(bool set) { hasSpecialStab = set; }
+    virtual void sethasSpecialBlock(bool set) { hasSpecialBlock = set; }
+    virtual void sethasSpecialBash(bool set) { hasSpecialBash = set; }
+    virtual void sethasSpecialParry(bool set) { hasSpecialParry = set; }
+    virtual void sethasSpecialHurl(bool set) { hasSpecialHurl = set; }
+    virtual void sethasSpecialWeight(bool set) { hasSpecialWeight = set; }
+
     virtual void setMaterialExamine(Material material) {};
+    // read "Wooden sword" instead of "Sword" and use default examine text from the weapon's material.
+    virtual void setMaterialNameToDisplay(bool set) {
+    	usesMaterialName = set;
+    }
+    virtual void setMaterial(Material nMaterial) {
+    	material = nMaterial;
+    }
     virtual void setArticle(short a) { Article = a; }
 
     virtual void setvSlash(string s) { verbSlash = s; }
@@ -118,22 +162,16 @@ public:
     virtual Effect* eatEffect();
     virtual Effect* equipEffect();
     virtual Effect* unequipEffect();
-
 };
 
-//Item::Item(Material nMaterial, string nName)
-//    : Item(nMaterial, nName, 0)  {
-//}
-//Item::Item(Material nMaterial, string nName, string nExamine)
-//    : Item(nMaterial, nName, 0, nExamine, true)  {
-//}
 Item::Item(Material nMaterial = Basic(), string nName = "Item", short nArticle = 0, string nExamine = "it's an Item.", bool nMaterialName = true)
-    : name(nName), materialName(nMaterialName), Article(nArticle), examineText(nExamine), material(nMaterial), specialEffect(nullptr),
+    : ID(0), name(nName), usesMaterialName(nMaterialName), Article(nArticle), examineText(nExamine), material(nMaterial), specialEffect(nullptr),
 	  affSlash(1), affCrush(1), affStab(1), affBlock(1), affBash(1), affParry(1), affHurl(1), affWeight(1.0),
 	  verbSlash(""), verbStab(""), verbCrush(""), verbBash(""), verbBlock(""), verbParry(""), verbHurl(""),
 	  effSlash(nullptr), effStab(nullptr), effCrush(nullptr), effBash(nullptr), effBlock(nullptr), effParry(nullptr), effHurl(nullptr) {
-	if(materialName)
-		setMaterialStrings(material);
+	hasSpecialExamine = false;
+	hasSpecialName = false;
+	specialName = "";
 }
 
 void Item::use() {
@@ -264,5 +302,5 @@ double Item::getAffinity(Style style) {
 		case Styles::Hurl: return affHurl;
 		default: cout << "error: Item::getAffinity()";
 	}
-
 }
+

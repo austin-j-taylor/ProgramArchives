@@ -11,7 +11,6 @@ private:
     
 };
 // returned value is player's numerical choice (zero-based, 1 to 5)
-//int Field::choice(string o1, string o2, string o3, string o4, string o5, string o6) {
 int Field::choice(vector<string> options, string message = "", bool isBackAnOption = true) {
     if(message.size() != 0) cout << message << endl;
     

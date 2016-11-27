@@ -9,7 +9,7 @@ private:
 };
 Steel::Steel()
     : Material("steel") {
-	setID(4);
+	ID = 4;
 	setaSlash(1.4);
 	setaStab(1.3);
 	setaCrush(1.6);

@@ -3,12 +3,11 @@ using namespace std;
 
 class Material {
 public:
-    Material();
     Material(string);
+    int ID;
     
     bool operator==(Material);
     string getName() { return material; }
-    virtual void setID(int i) { ID = i; }
     virtual double getAffinity(Style style);
     virtual void setaSlash(double n) { affSlash = n;}
     virtual void setaStab(double n) { affStab = n; }
@@ -24,7 +23,6 @@ public:
 
 private:
     string material;
-    int ID;
     
     double affSlash;
     double affStab;
@@ -36,7 +34,7 @@ private:
     double affWeight;
 };
 Material::Material(string nMaterial = "basic")
-    : material(nMaterial), affSlash(1), affStab(1), affCrush(1), affBash(1), affBlock(1), affParry(1), affHurl(1), affWeight(1), ID(-1) {
+    : material(nMaterial), affSlash(1), affStab(1), affCrush(1), affBash(1), affBlock(1), affParry(1), affHurl(1), affWeight(1), ID(0) {
 }
 bool Material::operator==(Material e2) {
     return (this->getName().compare(e2.getName()) == 0);
