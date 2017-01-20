@@ -36,6 +36,9 @@ enum Stats { None, Hp, HpMod, MaxHp, Str, StrMod, Def, DefMod, Dex, DexMod, Agil
 #include "Item\Item.hpp"
 #include "Item\Bag.hpp"
 
+#include "Item\Consumable\Consumable.hpp"
+#include "Item\Consumable\Apple.hpp"
+
 #include "Item\Weapon\Weapon.hpp"
 #include "Item\Weapon\Melee\Dagger.hpp"
 #include "Item\Weapon\Melee\HumanFist.hpp"

@@ -401,8 +401,12 @@ int ItemField::choice(vector<Character*>& enemies) {
     else { // if the weapon is unequipped
         itemInQuestion = items[itemChoice - attacker->getEquippedArms()->getSize()];
         for(Usage usage : itemInQuestion->getUsages())
-        	if(usage.getUsage() != Usages::Unequip)
-        		usages.push_back(usage.getName());
+        	if(usage.getUsage() != Usages::Unequip) {
+        		if(usage.getUsage() == Usages::Eat)
+        			usages.push_back((itemInQuestion->getIsEaten()) ? "Eat" : "Drink");
+        		else
+        			usages.push_back(usage.getName());
+        	}
         if(attacker->getEquippedArms()->getSize() < attacker->getEquippedArms()->getMaxSize()) { // if the attacker has an open hand
         	usages.push_back("Hurl");
         }
@@ -415,7 +419,7 @@ int ItemField::choice(vector<Character*>& enemies) {
 
     if(usages[usageChoice] == "Use") {
     	enemyShouldReact = attacker->use(itemInQuestion);
-    } else if(usages[usageChoice] == "Eat") {
+    } else if(usages[usageChoice] == "Eat" || usages[usageChoice] == "Drink") {
     	enemyShouldReact = attacker->eat(itemInQuestion);
     } else if(usages[usageChoice] == "Equip") {
     	enemyShouldReact = attacker->equip(itemInQuestion);

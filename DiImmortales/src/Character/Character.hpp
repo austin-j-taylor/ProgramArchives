@@ -197,7 +197,15 @@ int Character::use(Item* item) {
 	return 0;
 }
 int Character::eat(Item* item) {
-	return 0;
+	for(int i = 0; i < item->getStatCount(); i++) {
+		gain(item->getEffStats()[i], item->getEffPotencies()[i]);
+	}
+	for(int i = 0; i < item->getEffects().size(); i++) {
+		gainEffect(item->getEffects()[i]);
+	}
+	println(name + " ate the " + item->getName() + ".");
+    bag->removeItem(item);
+	return 1;
 }
 int Character::equip(Item* item, bool printOut = true) {
 	if(equippedArms->getSize() == 1)
@@ -467,6 +475,8 @@ void Character::gain(Stats stat, int amount) {
 		}
 		case Stats::Hp: {
 			hp += amount;
+			if(hp > maxHp)
+				hp = maxHp;
 			break;
 		}
 		case Stats::HpMod: {

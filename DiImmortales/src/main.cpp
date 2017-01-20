@@ -15,6 +15,8 @@ using namespace std;
  * save effects with items
  *
  * finish usages functions for Character and Item, consumables
+ * make all-encompassing effect that induces an instant change to a STAT that decays over TIME to be used by consumables, etc.
+ * 		-takes the Stat enum as an argument?
  * finish Effect system
 	 * change Stunned effect in attack() to have potency based on affBlock or something
 	 * have there be differed verbs for effects (artemis BLED to death, artemis took 3 damage from BLEEDING, etc)
@@ -145,6 +147,10 @@ int main() {
 			goto start;
 		}
 	}
+
+	Apple* app = new Apple();
+	player->getBag()->addItem(app);
+
 	CombatField combatfield = CombatField(player);
     int playAgain = combatfield.startCombat(foes);
     if(playAgain == -3) {

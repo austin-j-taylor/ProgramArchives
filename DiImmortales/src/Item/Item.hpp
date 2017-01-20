@@ -7,8 +7,14 @@ private:
     string specialName;
     string examineText;
     bool usesMaterialName;
+	bool isEatenRatherThanDrank;
     Material material;
     Effect* specialEffect;
+
+	Stats* effectedStatsWhenEaten;
+	vector<Effect*> effectsWhenEaten;
+	int* effectedPotenciesWhenEaten;
+	int statCountWhenEaten;
 
     // affinities of an item's (weapon's) to deal damage or effects (stabbing -> bleeding) based on material
     // derived classes will only override those that have special bonuses, such as an extra-stabbing sword
@@ -74,6 +80,7 @@ public:
     bool getHasSpecialWeight() { return hasSpecialWeight; }
 
     bool getUsesMaterialName() { return usesMaterialName; }
+	bool getIsEaten() { return isEatenRatherThanDrank; }
     string getExamineText() { return examineText; }
     virtual double getAffinity(Style style);
     virtual double getWeight() { return affWeight; }
@@ -82,6 +89,11 @@ public:
     virtual vector<Style> getStyles();
     virtual string getVerb(Style style);
     virtual string article();
+
+    virtual Stats* getEffStats() { return effectedStatsWhenEaten; }
+    virtual vector<Effect*> getEffects() { return effectsWhenEaten; }
+    virtual int* getEffPotencies() { return effectedPotenciesWhenEaten; }
+	virtual int getStatCount() { return statCountWhenEaten; }
 
     int ID;
 
@@ -100,7 +112,7 @@ public:
     virtual void sethasSpecialParry(bool set) { hasSpecialParry = set; }
     virtual void sethasSpecialHurl(bool set) { hasSpecialHurl = set; }
     virtual void sethasSpecialWeight(bool set) { hasSpecialWeight = set; }
-
+    virtual void setIsEatenRatherThanDrank(bool set) { isEatenRatherThanDrank = set; }
     virtual void setMaterialExamine(Material material) {};
     // read "Wooden sword" instead of "Sword" and use default examine text from the weapon's material.
     virtual void setMaterialNameToDisplay(bool set) {
@@ -110,6 +122,11 @@ public:
     	material = nMaterial;
     }
     virtual void setArticle(short a) { Article = a; }
+
+    virtual void setEffStats(Stats* set) { effectedStatsWhenEaten = set; }
+    virtual void setEffects(vector<Effect*> set) { effectsWhenEaten = set; }
+    virtual void setEffPotencies(int* set) { effectedPotenciesWhenEaten = set; }
+    virtual void setStatCount(int set) { statCountWhenEaten = set; }
 
     virtual void setvSlash(string s) { verbSlash = s; }
     virtual void setvStab(string s) { verbStab = s; }

@@ -8,7 +8,7 @@
 //** ReacXion Source Code **//
 //** www.jeremyblum.com **//
 
-/* forgive the usage of chars as integers. Arduinos have no acces to the C++ libraries for int_8 and so on. Gotta save that 5% memory.
+/* forgive the usage of chars as numbers. Arduinos have no access to the C++ libraries for int_8 and so on. Gotta save that 5% memory.
 
   /* CONSTANT AND VARIABLE DECLARATIONS*/
 // used to describe how fast the Arduino calls the interrupt. Higher means slower update and less accurate frequencies; lower means faster update and more accurate frequency. Anything lower than ~20 is corruptive.
@@ -29,24 +29,23 @@ int toggle[] = { 0, 0 };
 unsigned char freq[] = { 126, 126 };
 
 // keeps track of when each note needs to be switched, used to describe half-period in 64-microseconds; increases with time up to the count1/2/etc.'s respective freq[0]/2/etc.
-volatile unsigned int countf[] = { 0, 0 };
+unsigned int countf[] = { 0, 0 };
 
-volatile unsigned int countd[] = { 0, 0 };
+unsigned int countd[] = { 0, 0 };
 
-//bool volatile playNext[] = { true, true };
-volatile bool playingSong[] = { false, false };
+bool playingSong[] = { false, false };
 
 // holds the  time to play a note in units of 64-microseconds
-unsigned int duration[] = { 0, 0 };
+int duration[] = { 0, 0 };
 
 // holds the index of the current Motif of the Song to play
-volatile unsigned char motifIndex[] = { 0, 0 };
+unsigned char motifIndex[] = { 0, 0 };
 
 // holds the index of the current Note of a Motif to play
-volatile unsigned char noteIndex[] = { 0, 0 };
+unsigned char noteIndex[] = { 0, 0 };
 
 // indicates if the metronome is currently playing
-volatile bool playingMetronome = false;
+bool playingMetronome = false;
 
 /* Frequency Output Pins */
 const char pin[] = { 9, 10 };
@@ -93,6 +92,7 @@ class Song {
 };
 
 // collection of written Songs
+// Some songs may be commented out, as the Arduino doesn't have enough memory to store them.
 class Songbook {
     // declaration of Notes, Motifs, and Songs.
     // motifs' number postfix show the order in the song they first appear
@@ -105,38 +105,37 @@ class Songbook {
       [nothing]   ...   Song
     */
   private:
-    //    static Note n_ClocktownREST1[4];
-//    static Note n_ClocktownB1[15];
-//    static Note n_ClocktownB2[14];
-//    static Note n_ClocktownB3[10];
-//    static Note n_ClocktownREST1[8];
-//    static Note n_Clocktown2[7];
-//    static Note n_Clocktown3[8];
-//    static Note n_Clocktown4[7];
-//    static Note n_Clocktown5[7];
-//    static Note n_Clocktown6[8];
-//    static Note n_Clocktown7[7];
-//    static Note n_Clocktown8[11];
+    static Note n_ClocktownB1[15];
+    static Note n_ClocktownB2[14];
+    static Note n_ClocktownB3[10];
+    static Note n_ClocktownREST1[8];
+    static Note n_Clocktown2[7];
+    static Note n_Clocktown3[8];
+    static Note n_Clocktown4[7];
+    static Note n_Clocktown5[7];
+    static Note n_Clocktown6[8];
+    static Note n_Clocktown7[7];
+    static Note n_Clocktown8[11];
 
-    static Note n_ZeldasLullaby1[9];
-    static Note n_ZeldasLullaby2[9];
-    static Note n_ZeldasLullaby3[6];
-    static Note n_ZeldasLullaby4[5];
-    static Note n_ZeldasLullaby5[7];
-    static Note n_ZeldasLullaby6[4];
-    static Note n_BM1[6];
-    static Note n_BM2[6];
-    static Note n_BM3[6];
-    static Note n_BM4[6];
-    static Note n_BM5[7];
-    static Note n_BM6[4];
-    static Note n_BM7[6];
-    static Note n_BM8[8];
-    static Note n_BM9[7];
-    static Note n_BM10[8];
-    static Note n_BM11[8];
-    static Note n_BM12[10];
-    static Note n_BM13[5];
+//    static Note n_ZeldasLullaby1[9];
+//    static Note n_ZeldasLullaby2[9];
+//    static Note n_ZeldasLullaby3[6];
+//    static Note n_ZeldasLullaby4[5];
+//    static Note n_ZeldasLullaby5[7];
+//    static Note n_ZeldasLullaby6[4];
+//    static Note n_BM1[6];
+//    static Note n_BM2[6];
+//    static Note n_BM3[6];
+//    static Note n_BM4[6];
+//    static Note n_BM5[7];
+//    static Note n_BM6[4];
+//    static Note n_BM7[6];
+//    static Note n_BM8[8];
+//    static Note n_BM9[7];
+//    static Note n_BM10[8];
+//    static Note n_BM11[8];
+//    static Note n_BM12[10];
+//    static Note n_BM13[5];
 
     static Note n_DragonsREST1[4];
     static Note n_DragonsB1[10];
@@ -160,7 +159,7 @@ class Songbook {
     static Note n_Dragons7a[3];
     static Note n_Dragons7b[19];
     static Note n_Dragons8[20];
-//    static Note n_Dragons9[1];
+    //    static Note n_Dragons9[1];
 
     static Note n_HuntREST1[4];
     static Note n_HuntB1[4];
@@ -178,38 +177,50 @@ class Songbook {
     //    static Note n_CustomB2[x];
     static Note n_CustomB3[4];
     static Note n_CustomB4[4];
-    // ----------------------------------
-//    static Motif* m_ClocktownB1;
-//    static Motif* m_ClocktownB2;
-//    static Motif* m_ClocktownB3;
-//    static Motif* m_ClocktownREST1;
-//    static Motif* m_Clocktown2;
-//    static Motif* m_Clocktown3;
-//    static Motif* m_Clocktown4;
-//    static Motif* m_Clocktown5;
-//    static Motif* m_Clocktown6;
-//    static Motif* m_Clocktown7;
-//    static Motif* m_Clocktown8;
 
-    static Motif* m_ZeldasLullaby1;
-    static Motif* m_ZeldasLullaby2;
-    static Motif* m_ZeldasLullaby3;
-    static Motif* m_ZeldasLullaby4;
-    static Motif* m_ZeldasLullaby5;
-    static Motif* m_ZeldasLullaby6;
-    static Motif* m_BM1;
-    static Motif* m_BM2;
-    static Motif* m_BM3;
-    static Motif* m_BM4;
-    static Motif* m_BM5;
-    static Motif* m_BM6;
-    static Motif* m_BM7;
-    static Motif* m_BM8;
-    static Motif* m_BM9;
-    static Motif* m_BM10;
-    static Motif* m_BM11;
-    static Motif* m_BM12;
-    static Motif* m_BM13;
+    static Note n_MEGAREST1[1];
+    static Note n_MEGAB1[7];
+    static Note n_MEGAB2[7];
+    static Note n_MEGAB3[7];
+    static Note n_MEGAB4[7];
+    static Note n_MEGAMelody[12];
+    static Note n_MEGA1[2];
+    static Note n_MEGA2[2];
+    static Note n_MEGA3[2];
+    static Note n_MEGA4[2];
+    
+    // ----------------------------------
+    static Motif* m_ClocktownB1;
+    static Motif* m_ClocktownB2;
+    static Motif* m_ClocktownB3;
+    static Motif* m_ClocktownREST1;
+    static Motif* m_Clocktown2;
+    static Motif* m_Clocktown3;
+    static Motif* m_Clocktown4;
+    static Motif* m_Clocktown5;
+    static Motif* m_Clocktown6;
+    static Motif* m_Clocktown7;
+    static Motif* m_Clocktown8;
+
+//    static Motif* m_ZeldasLullaby1;
+//    static Motif* m_ZeldasLullaby2;
+//    static Motif* m_ZeldasLullaby3;
+//    static Motif* m_ZeldasLullaby4;
+//    static Motif* m_ZeldasLullaby5;
+//    static Motif* m_ZeldasLullaby6;
+//    static Motif* m_BM1;
+//    static Motif* m_BM2;
+//    static Motif* m_BM3;
+//    static Motif* m_BM4;
+//    static Motif* m_BM5;
+//    static Motif* m_BM6;
+//    static Motif* m_BM7;
+//    static Motif* m_BM8;
+//    static Motif* m_BM9;
+//    static Motif* m_BM10;
+//    static Motif* m_BM11;
+//    static Motif* m_BM12;
+//    static Motif* m_BM13;
 
     static Motif* m_DragonsREST1;
     static Motif* m_DragonsB1;
@@ -233,7 +244,7 @@ class Songbook {
     static Motif* m_Dragons7a;
     static Motif* m_Dragons7b;
     static Motif* m_Dragons8;
-//    static Motif* m_Dragons9;
+    //    static Motif* m_Dragons9;
 
     static Motif* m_HuntREST1;
     static Motif* m_HuntB1;
@@ -251,13 +262,24 @@ class Songbook {
     //    static Motif* m_CustomB2;
     static Motif* m_CustomB3;
     static Motif* m_CustomB4;
+
+    static Motif* m_MEGAREST1;
+    static Motif* m_MEGAB1;
+    static Motif* m_MEGAB2;
+    static Motif* m_MEGAB3;
+    static Motif* m_MEGAB4;
+    static Motif* m_MEGAMelody;
+    static Motif* m_MEGA1;
+    static Motif* m_MEGA2;
+    static Motif* m_MEGA3;
+    static Motif* m_MEGA4;
     // ----------------------------------
-//    static Motif* s_ClocktownBass[11];
-//    static Motif* s_Clocktown[35];
+    static Motif* s_ClocktownBass[11];
+    static Motif* s_Clocktown[35];
 
-    static Motif* s_ZeldasLullaby[8];
+//    static Motif* s_ZeldasLullaby[8];
 
-    static Motif* s_BanneredMare[16];
+//    static Motif* s_BanneredMare[16];
 
     static Motif* s_DragonsBass[46];
     static Motif* s_Dragons[36];
@@ -266,14 +288,17 @@ class Songbook {
     static Motif* s_Hunt[17];
 
     static Motif* s_CustomBass[12];
+
+    static Motif* s_MegalovaniaBass[8];
+    static Motif* s_Megalovania[16];
     // ----------------------------------
   public:
-//    static Song ClocktownBass;
-//    static Song Clocktown;
+    static Song ClocktownBass;
+    static Song Clocktown;
 
-    static Song ZeldasLullaby;
+//    static Song ZeldasLullaby;
 
-    static Song BanneredMare;
+//    static Song BanneredMare;
 
     static Song DragonsBass;
     static Song Dragons;
@@ -282,107 +307,110 @@ class Songbook {
     static Song Hunt;
 
     static Song CustomBass;
+
+    static Song MegalovaniaBass;
+    static Song Megalovania;
 };
 
-//Note Songbook::n_ClocktownB1[15] = {
-//  Note(0, 96), Note(-1, 48), Note(126, 48), Note(-3, 96), Note(-1, 48), Note(126, 48), // x6
-//  Note(0, 96), Note(-1, 48), Note(126, 48), Note(-3, 40), Note(126, 8), Note(-1, 16), Note(126, 32), Note(0, 48), Note(126, 48) // x9
-//};
-//Note Songbook::n_ClocktownB2[14] = {
-//  Note(12, 96), Note(11, 16), Note(126, 80), Note(9, 96), Note(7, 16), Note(126, 80),
-//  Note(12, 96), Note(11, 16), Note(126, 32), Note(9, 40), Note(126, 8), Note(7, 96), Note(5, 32), Note(126, 64)
-//};
-//Note Songbook::n_ClocktownB3[10] = {
-//  Note(12, 96), Note(11, 16), Note(126, 80), Note(17, 96), Note(16, 16), Note(126, 80),
-//  Note(16, 96), Note(15, 96), Note(14, 96 + 48), Note(126, 48)
-//};
-//
-//Note Songbook::n_ClocktownREST1[8] = {
-//  Note(126, 96), Note(126, 96), Note(126, 96), Note(126, 96), Note(126, 96), Note(126, 96), Note(126, 96), Note(126, 96) // x8
-//};
-//Note Songbook::n_Clocktown2[7] = {
-//  Note(12, 32), Note(24, 16), Note(23, 16), Note(21, 16), Note(19, 16), Note(21, 48), Note(17, 48) // x7
-//};
-//Note Songbook::n_Clocktown3[8] = {
-//  Note(19, 32), Note(14, 16), Note(19, 16), Note(17, 16), Note(14, 16), Note(17, 32), Note(19, 16), Note(16, 48) // x8
-//};
-//Note Songbook::n_Clocktown4[7] = {
-//  Note(19, 16), Note(17, 16), Note(14, 16), Note(17, 32), Note(16, 16), Note(12, 48), Note(126, 48) // x7
-//};
-//Note Songbook::n_Clocktown5[7] = {
-//  Note(12, 32), Note(12, 16), Note(12, 16), Note(11, 16), Note(12, 16), Note(14, 48), Note(7, 48) // x7
-//};
-//Note Songbook::n_Clocktown6[8] = {
-//  Note(17, 16), Note(16, 16), Note(17, 16), Note(16, 32), Note(12, 16), Note(14, 32), Note(11, 16), Note(7, 48) // x8
-//};
-//Note Songbook::n_Clocktown7[7] = {
-//  Note(17, 16), Note(16, 16), Note(17, 16), Note(16, 32), Note(11, 16), Note(12, 48), Note(126, 48) // x7
-//};
-//Note Songbook::n_Clocktown8[11] = {
-//  Note(126, 96), Note(126, 96), Note(126, 96), Note(126, 96),
-//  Note(126, 96), Note(126, 96), Note(126, 32), Note(7 + 12, 16), Note(19 + 12, 32), Note(7 + 12, 16), Note(19 + 12, 96)
-//};
-
-Note Songbook::n_ZeldasLullaby1[9] = {
-  Note(4, 32), Note(7, 16), Note(2, 32), Note(0, 8), Note(2, 8), Note(4, 32), Note(7, 16), Note(2, 32), Note(126, 16) // x9
+Note Songbook::n_ClocktownB1[15] = {
+  Note(0, 96), Note(-1, 48), Note(126, 48), Note(-3, 96), Note(-1, 48), Note(126, 48), // x6
+  Note(0, 96), Note(-1, 48), Note(126, 48), Note(-3, 40), Note(126, 8), Note(-1, 16), Note(126, 32), Note(0, 48), Note(126, 48) // x9
 };
-Note Songbook::n_ZeldasLullaby2[9] = {
-  Note(4, 32), Note(7, 16), Note(14, 32), Note(12, 16), Note(7, 32), Note(5, 8), Note(4, 8), Note(2, 32), Note(126, 16) // x9
+Note Songbook::n_ClocktownB2[14] = {
+  Note(12, 96), Note(11, 16), Note(126, 80), Note(9, 96), Note(7, 16), Note(126, 80),
+  Note(12, 96), Note(11, 16), Note(126, 32), Note(9, 40), Note(126, 8), Note(7, 96), Note(5, 32), Note(126, 64)
 };
-Note Songbook::n_ZeldasLullaby3[6] = {
-  Note(4, 32), Note(7, 16), Note(14, 32), Note(12, 16), Note(19, 64), Note(126, 32) // x6
-};
-Note Songbook::n_ZeldasLullaby4[5] = {
-  Note(19, 32), Note(17, 8), Note(16, 8), Note(17, 8), Note(16, 8) // x5 //, Note(26, 32)
-};
-Note Songbook::n_ZeldasLullaby5[7] = {
-  Note(14, 32), // x1
-  Note(17, 32), Note(16, 8), Note(14, 8), Note(16, 8), Note(14, 8), Note(9, 32) // x6
-};
-Note Songbook::n_ZeldasLullaby6[4] = {
-  Note(14, 16), Note(17, 16), Note(24, 64), Note(126, 32) // x4
+Note Songbook::n_ClocktownB3[10] = {
+  Note(12, 96), Note(11, 16), Note(126, 80), Note(17, 96), Note(16, 16), Note(126, 80),
+  Note(16, 96), Note(15, 96), Note(14, 96 + 48), Note(126, 48)
 };
 
-Note Songbook::n_BM1[6] = {
-  Note(15, 48), Note(12, 16), Note(14, 32), Note(15, 48), Note(17, 16), Note(15, 32) // x6
+Note Songbook::n_ClocktownREST1[8] = {
+  Note(126, 96), Note(126, 96), Note(126, 96), Note(126, 96), Note(126, 96), Note(126, 96), Note(126, 96), Note(126, 96) // x8
 };
-Note Songbook::n_BM2[6] = {
-  Note(14, 48), Note(10, 16), Note(12, 32), Note(14, 48), Note(15, 16), Note(14, 32) // x6
+Note Songbook::n_Clocktown2[7] = {
+  Note(12, 32), Note(24, 16), Note(23, 16), Note(21, 16), Note(19, 16), Note(21, 48), Note(17, 48) // x7
 };
-Note Songbook::n_BM3[6] = {
-  Note(12, 48), Note(8, 16), Note(10, 32), Note(12, 48), Note(14, 16), Note(12, 32) // x6
+Note Songbook::n_Clocktown3[8] = {
+  Note(19, 32), Note(14, 16), Note(19, 16), Note(17, 16), Note(14, 16), Note(17, 32), Note(19, 16), Note(16, 48) // x8
 };
-Note Songbook::n_BM4[6] = {
-  Note(11, 48), Note(12, 16), Note(9, 32), Note(11, 48), Note(126, 16), Note(7, 32)// x6
+Note Songbook::n_Clocktown4[7] = {
+  Note(19, 16), Note(17, 16), Note(14, 16), Note(17, 32), Note(16, 16), Note(12, 48), Note(126, 48) // x7
 };
-Note Songbook::n_BM5[7] = {
-  Note(12, 48), Note(14, 16), Note(12, 16),  Note(126, 16), Note(12, 48), Note(14, 16), Note(12, 32) // x7
+Note Songbook::n_Clocktown5[7] = {
+  Note(12, 32), Note(12, 16), Note(12, 16), Note(11, 16), Note(12, 16), Note(14, 48), Note(7, 48) // x7
 };
-Note Songbook::n_BM6[4] = {
-  Note(11, 64), Note(14, 32), Note(12, 64), Note(126, 32) // x4
+Note Songbook::n_Clocktown6[8] = {
+  Note(17, 16), Note(16, 16), Note(17, 16), Note(16, 32), Note(12, 16), Note(14, 32), Note(11, 16), Note(7, 48) // x8
 };
-Note Songbook::n_BM7[6] = {
-  Note(19, 48), Note(15, 16), Note(17, 32), Note(19, 48), Note(20, 16), Note(19, 32) // x6
+Note Songbook::n_Clocktown7[7] = {
+  Note(17, 16), Note(16, 16), Note(17, 16), Note(16, 32), Note(11, 16), Note(12, 48), Note(126, 48) // x7
 };
-Note Songbook::n_BM8[8] = {
-  Note(17, 48), Note(14, 16), Note(15, 32), Note(17, 48), Note(19, 16), Note(17, 16), Note(15, 8), Note(99, 8) // x8
+Note Songbook::n_Clocktown8[11] = {
+  Note(126, 96), Note(126, 96), Note(126, 96), Note(126, 96),
+  Note(126, 96), Note(126, 96), Note(126, 32), Note(7 + 12, 16), Note(19 + 12, 32), Note(7 + 12, 16), Note(19 + 12, 96)
 };
+
+//Note Songbook::n_ZeldasLullaby1[9] = {
+//  Note(4, 32), Note(7, 16), Note(2, 32), Note(0, 8), Note(2, 8), Note(4, 32), Note(7, 16), Note(2, 32), Note(126, 16) // x9
+//};
+//Note Songbook::n_ZeldasLullaby2[9] = {
+//  Note(4, 32), Note(7, 16), Note(14, 32), Note(12, 16), Note(7, 32), Note(5, 8), Note(4, 8), Note(2, 32), Note(126, 16) // x9
+//};
+//Note Songbook::n_ZeldasLullaby3[6] = {
+//  Note(4, 32), Note(7, 16), Note(14, 32), Note(12, 16), Note(19, 64), Note(126, 32) // x6
+//};
+//Note Songbook::n_ZeldasLullaby4[5] = {
+//  Note(19, 32), Note(17, 8), Note(16, 8), Note(17, 8), Note(16, 8) // x5 //, Note(26, 32)
+//};
+//Note Songbook::n_ZeldasLullaby5[7] = {
+//  Note(14, 32), // x1
+//  Note(17, 32), Note(16, 8), Note(14, 8), Note(16, 8), Note(14, 8), Note(9, 32) // x6
+//};
+//Note Songbook::n_ZeldasLullaby6[4] = {
+//  Note(14, 16), Note(17, 16), Note(24, 64), Note(126, 32) // x4
+//};
+
+//Note Songbook::n_BM1[6] = {
+//  Note(15, 48), Note(12, 16), Note(14, 32), Note(15, 48), Note(17, 16), Note(15, 32) // x6
+//};
+//Note Songbook::n_BM2[6] = {
+//  Note(14, 48), Note(10, 16), Note(12, 32), Note(14, 48), Note(15, 16), Note(14, 32) // x6
+//};
+//Note Songbook::n_BM3[6] = {
+//  Note(12, 48), Note(8, 16), Note(10, 32), Note(12, 48), Note(14, 16), Note(12, 32) // x6
+//};
+//Note Songbook::n_BM4[6] = {
+//  Note(11, 48), Note(12, 16), Note(9, 32), Note(11, 48), Note(126, 16), Note(7, 32)// x6
+//};
+//Note Songbook::n_BM5[7] = {
+//  Note(12, 48), Note(14, 16), Note(12, 16),  Note(126, 16), Note(12, 48), Note(14, 16), Note(12, 32) // x7
+//};
+//Note Songbook::n_BM6[4] = {
+//  Note(11, 64), Note(14, 32), Note(12, 64), Note(126, 32) // x4
+//};
+//Note Songbook::n_BM7[6] = {
+//  Note(19, 48), Note(15, 16), Note(17, 32), Note(19, 48), Note(20, 16), Note(19, 32) // x6
+//};
+//Note Songbook::n_BM8[8] = {
+//  Note(17, 48), Note(14, 16), Note(15, 32), Note(17, 48), Note(19, 16), Note(17, 16), Note(15, 8), Note(99, 8) // x8
+//};
 // + n_BM1
-Note Songbook::n_BM9[7] = {
-  Note(14, 32 / 3), Note(15, 32 / 3), Note(14, 32 / 3 + 48 + 8), Note(126, 8), Note(14, 64), Note(10, 24), Note(126, 8) // x7
-};
-Note Songbook::n_BM10[8] = {
-  Note(19, 64), Note(15, 16), Note(17, 16), Note(19, 32), Note(20, 16), Note(19, 16), Note(17, 16), Note(15, 16) // x8
-};
-Note Songbook::n_BM11[8] = {
-  Note(17, 64), Note(14, 16), Note(15, 16), Note(17, 32), Note(19, 16), Note(17, 16), Note(15, 16), Note(14, 16) // x8
-};
-Note Songbook::n_BM12[10] = {
-  Note(15, 32), Note(12, 16), Note(14, 16), Note(15, 24), Note(126, 8), Note(15, 32), Note(17, 16), Note(15, 16), Note(14, 16), Note(12, 16) // x10
-};
-Note Songbook::n_BM13[5] = {
-  Note(14, 32), Note(10, 32), Note(14, 32), Note(12, 64), Note(126, 32) // x5
-};
+//Note Songbook::n_BM9[7] = {
+//  Note(14, 32 / 3), Note(15, 32 / 3), Note(14, 32 / 3 + 48 + 8), Note(126, 8), Note(14, 64), Note(10, 24), Note(126, 8) // x7
+//};
+//Note Songbook::n_BM10[8] = {
+//  Note(19, 64), Note(15, 16), Note(17, 16), Note(19, 32), Note(20, 16), Note(19, 16), Note(17, 16), Note(15, 16) // x8
+//};
+//Note Songbook::n_BM11[8] = {
+//  Note(17, 64), Note(14, 16), Note(15, 16), Note(17, 32), Note(19, 16), Note(17, 16), Note(15, 16), Note(14, 16) // x8
+//};
+//Note Songbook::n_BM12[10] = {
+//  Note(15, 32), Note(12, 16), Note(14, 16), Note(15, 24), Note(126, 8), Note(15, 32), Note(17, 16), Note(15, 16), Note(14, 16), Note(12, 16) // x10
+//};
+//Note Songbook::n_BM13[5] = {
+//  Note(14, 32), Note(10, 32), Note(14, 32), Note(12, 64), Note(126, 32) // x5
+//};
 
 Note Songbook::n_DragonsREST1[4] = {
   Note(126, 64), Note(126, 64), Note(-12, 64), Note(-12, 64)
@@ -512,39 +540,72 @@ Note Songbook::n_CustomB3[4] = {
 Note Songbook::n_CustomB4[4] = {
   Note(12, 32), Note(19, 32), Note(17, 32), Note(14, 32)
 };
+
+Note Songbook::n_MEGAREST1[1] = {
+    Note(126, 64)
+};
+Note Songbook::n_MEGAB1[7] = {
+    Note(0, 8), Note(0, 8), Note(0, 12), Note(0, 8), Note(0, 8), Note(0, 12), Note(0, 8)
+};
+Note Songbook::n_MEGAB2[7] = {
+    Note(-2, 8), Note(-2, 8), Note(-2, 12), Note(-2, 8), Note(-2, 8), Note(-2, 12), Note(-2, 8)
+};
+Note Songbook::n_MEGAB3[7] = {
+    Note(-3, 8), Note(-3, 8), Note(-3, 12), Note(-3, 8), Note(-3, 8), Note(-3, 12), Note(-3, 8)
+};
+Note Songbook::n_MEGAB4[7] = {
+    Note(-4, 8), Note(-4, 8), Note(-4, 12), Note(-2, 8), Note(-2, 8), Note(-2, 12), Note(-2, 8)
+};
+Note Songbook::n_MEGAMelody[12] = {
+     Note(12, 4), Note(126, 4),  Note(7, 4), Note(126, 8),
+     Note(6, 4), Note(126, 4), Note(5, 4), Note(126, 4), Note(3, 8),
+     Note(0, 4), Note(6, 4), Note(5, 4) 
+};
+Note Songbook::n_MEGA1[2] = {
+     Note(0, 4), Note(0, 4)
+};
+Note Songbook::n_MEGA2[2] = {
+     Note(-2, 4), Note(-2, 4)
+};
+Note Songbook::n_MEGA3[2] = {
+     Note(-3, 4), Note(-3, 4)
+};
+Note Songbook::n_MEGA4[2] = {
+     Note(-4, 4), Note(-4, 4)
+};
 // -----------------------------------------------------------------------------------------------------------------------------------
-//Motif* Songbook::m_ClocktownB1 = new Motif(n_ClocktownB1, 15);
-//Motif* Songbook::m_ClocktownB2 = new Motif(n_ClocktownB2, 14);
-//Motif* Songbook::m_ClocktownB3 = new Motif(n_ClocktownB3, 10);
-//Motif* Songbook::m_ClocktownREST1 = new Motif(n_ClocktownREST1, 8);
-//Motif* Songbook::m_Clocktown2 = new Motif(n_Clocktown2, 7);
-//Motif* Songbook::m_Clocktown3 = new Motif(n_Clocktown3, 8);
-//Motif* Songbook::m_Clocktown4 = new Motif(n_Clocktown4, 7);
-//Motif* Songbook::m_Clocktown5 = new Motif(n_Clocktown5, 7);
-//Motif* Songbook::m_Clocktown6 = new Motif(n_Clocktown6, 8);
-//Motif* Songbook::m_Clocktown7 = new Motif(n_Clocktown7, 7);
-//Motif* Songbook::m_Clocktown8 = new Motif(n_Clocktown8, 11);
+Motif* Songbook::m_ClocktownB1 = new Motif(n_ClocktownB1, 15);
+Motif* Songbook::m_ClocktownB2 = new Motif(n_ClocktownB2, 14);
+Motif* Songbook::m_ClocktownB3 = new Motif(n_ClocktownB3, 10);
+Motif* Songbook::m_ClocktownREST1 = new Motif(n_ClocktownREST1, 8);
+Motif* Songbook::m_Clocktown2 = new Motif(n_Clocktown2, 7);
+Motif* Songbook::m_Clocktown3 = new Motif(n_Clocktown3, 8);
+Motif* Songbook::m_Clocktown4 = new Motif(n_Clocktown4, 7);
+Motif* Songbook::m_Clocktown5 = new Motif(n_Clocktown5, 7);
+Motif* Songbook::m_Clocktown6 = new Motif(n_Clocktown6, 8);
+Motif* Songbook::m_Clocktown7 = new Motif(n_Clocktown7, 7);
+Motif* Songbook::m_Clocktown8 = new Motif(n_Clocktown8, 11);
 
-Motif* Songbook::m_ZeldasLullaby1 = new Motif(n_ZeldasLullaby1, 9);
-Motif* Songbook::m_ZeldasLullaby2 = new Motif(n_ZeldasLullaby2, 9);
-Motif* Songbook::m_ZeldasLullaby3 = new Motif(n_ZeldasLullaby3, 6);
-Motif* Songbook::m_ZeldasLullaby4 = new Motif(n_ZeldasLullaby4, 5);
-Motif* Songbook::m_ZeldasLullaby5 = new Motif(n_ZeldasLullaby5, 7);
-Motif* Songbook::m_ZeldasLullaby6 = new Motif(n_ZeldasLullaby6, 4);
+//Motif* Songbook::m_ZeldasLullaby1 = new Motif(n_ZeldasLullaby1, 9);
+//Motif* Songbook::m_ZeldasLullaby2 = new Motif(n_ZeldasLullaby2, 9);
+//Motif* Songbook::m_ZeldasLullaby3 = new Motif(n_ZeldasLullaby3, 6);
+//Motif* Songbook::m_ZeldasLullaby4 = new Motif(n_ZeldasLullaby4, 5);
+//Motif* Songbook::m_ZeldasLullaby5 = new Motif(n_ZeldasLullaby5, 7);
+//Motif* Songbook::m_ZeldasLullaby6 = new Motif(n_ZeldasLullaby6, 4);
 
-Motif* Songbook::m_BM1 = new Motif(n_BM1, 6);
-Motif* Songbook::m_BM2 = new Motif(n_BM2, 6);
-Motif* Songbook::m_BM3 = new Motif(n_BM3, 6);
-Motif* Songbook::m_BM4 = new Motif(n_BM4, 6);
-Motif* Songbook::m_BM5 = new Motif(n_BM5, 7);
-Motif* Songbook::m_BM6 = new Motif(n_BM6, 4);
-Motif* Songbook::m_BM7 = new Motif(n_BM7, 6);
-Motif* Songbook::m_BM8 = new Motif(n_BM8, 8);
-Motif* Songbook::m_BM9 = new Motif(n_BM9, 7);
-Motif* Songbook::m_BM10 = new Motif(n_BM10, 8);
-Motif* Songbook::m_BM11 = new Motif(n_BM11, 8);
-Motif* Songbook::m_BM12 = new Motif(n_BM12, 10);
-Motif* Songbook::m_BM13 = new Motif(n_BM13, 5);
+//Motif* Songbook::m_BM1 = new Motif(n_BM1, 6);
+//Motif* Songbook::m_BM2 = new Motif(n_BM2, 6);
+//Motif* Songbook::m_BM3 = new Motif(n_BM3, 6);
+//Motif* Songbook::m_BM4 = new Motif(n_BM4, 6);
+//Motif* Songbook::m_BM5 = new Motif(n_BM5, 7);
+//Motif* Songbook::m_BM6 = new Motif(n_BM6, 4);
+//Motif* Songbook::m_BM7 = new Motif(n_BM7, 6);
+//Motif* Songbook::m_BM8 = new Motif(n_BM8, 8);
+//Motif* Songbook::m_BM9 = new Motif(n_BM9, 7);
+//Motif* Songbook::m_BM10 = new Motif(n_BM10, 8);
+//Motif* Songbook::m_BM11 = new Motif(n_BM11, 8);
+//Motif* Songbook::m_BM12 = new Motif(n_BM12, 10);
+//Motif* Songbook::m_BM13 = new Motif(n_BM13, 5);
 
 Motif* Songbook::m_DragonsREST1 = new Motif(n_DragonsREST1, 4);
 Motif* Songbook::m_DragonsB1 = new Motif(n_DragonsB1, 10);
@@ -586,54 +647,65 @@ Motif* Songbook::m_CustomB1 = new Motif(n_CustomB1, 6);
 //Motif* Songbook::m_CustomB2 = new Motif(n_CustomB2, x);
 Motif* Songbook::m_CustomB3 = new Motif(n_CustomB3, 4);
 Motif* Songbook::m_CustomB4 = new Motif(n_CustomB4, 4);
+
+Motif* Songbook::m_MEGAREST1 = new Motif(n_MEGAREST1, 1);
+Motif* Songbook::m_MEGAB1 = new Motif(n_MEGAB1, 7);
+Motif* Songbook::m_MEGAB2 = new Motif(n_MEGAB2, 7);
+Motif* Songbook::m_MEGAB3 = new Motif(n_MEGAB3, 7);
+Motif* Songbook::m_MEGAB4 = new Motif(n_MEGAB4, 7);
+Motif* Songbook::m_MEGAMelody = new Motif(n_MEGAMelody, 12);
+Motif* Songbook::m_MEGA1 = new Motif(n_MEGA1, 2);
+Motif* Songbook::m_MEGA2 = new Motif(n_MEGA2, 2);
+Motif* Songbook::m_MEGA3 = new Motif(n_MEGA3, 2);
+Motif* Songbook::m_MEGA4 = new Motif(n_MEGA4, 2);
 // -----------------------------------------------------------------------------------------------------------------------------------
-//Motif* Songbook::s_ClocktownBass[11] = {
-//  m_ClocktownB1,
-//
-//  m_ClocktownB1,
-//  m_ClocktownB1,
-//
-//  m_ClocktownB1,
-//  m_ClocktownB1,
-//
-//  m_ClocktownB2, m_ClocktownB3,
-//
-//  m_ClocktownB1,
-//  m_ClocktownB1,
-//
-//  m_ClocktownB1,
-//  m_ClocktownB1
-//};
-//Motif* Songbook::s_Clocktown[35] = {
-//  m_ClocktownREST1,
-//  m_Clocktown2, m_Clocktown3, m_Clocktown2, m_Clocktown4,
-//  m_Clocktown2, m_Clocktown3, m_Clocktown2, m_Clocktown4,
-//
-//  m_Clocktown5, m_Clocktown6, m_Clocktown5, m_Clocktown7,
-//  m_Clocktown5, m_Clocktown6, m_Clocktown5, m_Clocktown7,
-//  m_ClocktownREST1,                         m_Clocktown8,
-//
-//  m_Clocktown2, m_Clocktown3, m_Clocktown2, m_Clocktown4,
-//  m_Clocktown2, m_Clocktown3, m_Clocktown2, m_Clocktown4,
-//
-//  m_Clocktown5, m_Clocktown6, m_Clocktown5, m_Clocktown7,
-//  m_Clocktown5, m_Clocktown6, m_Clocktown5, m_Clocktown7
-//};
+Motif* Songbook::s_ClocktownBass[11] = {
+  m_ClocktownB1,
 
-Motif* Songbook::s_ZeldasLullaby[8] = {
-  m_ZeldasLullaby1, m_ZeldasLullaby2,
-  m_ZeldasLullaby1, m_ZeldasLullaby3,
+  m_ClocktownB1,
+  m_ClocktownB1,
 
-  m_ZeldasLullaby4, m_ZeldasLullaby5,
-  m_ZeldasLullaby4, m_ZeldasLullaby6
+  m_ClocktownB1,
+  m_ClocktownB1,
+
+  m_ClocktownB2, m_ClocktownB3,
+
+  m_ClocktownB1,
+  m_ClocktownB1,
+
+  m_ClocktownB1,
+  m_ClocktownB1
+};
+Motif* Songbook::s_Clocktown[35] = {
+  m_ClocktownREST1,
+  m_Clocktown2, m_Clocktown3, m_Clocktown2, m_Clocktown4,
+  m_Clocktown2, m_Clocktown3, m_Clocktown2, m_Clocktown4,
+
+  m_Clocktown5, m_Clocktown6, m_Clocktown5, m_Clocktown7,
+  m_Clocktown5, m_Clocktown6, m_Clocktown5, m_Clocktown7,
+  m_ClocktownREST1,                         m_Clocktown8,
+
+  m_Clocktown2, m_Clocktown3, m_Clocktown2, m_Clocktown4,
+  m_Clocktown2, m_Clocktown3, m_Clocktown2, m_Clocktown4,
+
+  m_Clocktown5, m_Clocktown6, m_Clocktown5, m_Clocktown7,
+  m_Clocktown5, m_Clocktown6, m_Clocktown5, m_Clocktown7
 };
 
-Motif* Songbook::s_BanneredMare[16] = {
-  m_BM1, m_BM2, m_BM3, m_BM4,
-  m_BM1, m_BM2, m_BM5, m_BM6,
-  m_BM7, m_BM8, m_BM1, m_BM9,
-  m_BM10, m_BM11, m_BM12, m_BM13
-};
+//Motif* Songbook::s_ZeldasLullaby[8] = {
+//  m_ZeldasLullaby1, m_ZeldasLullaby2,
+//  m_ZeldasLullaby1, m_ZeldasLullaby3,
+//
+//  m_ZeldasLullaby4, m_ZeldasLullaby5,
+//  m_ZeldasLullaby4, m_ZeldasLullaby6
+//};
+
+//Motif* Songbook::s_BanneredMare[16] = {
+//  m_BM1, m_BM2, m_BM3, m_BM4,
+//  m_BM1, m_BM2, m_BM5, m_BM6,
+//  m_BM7, m_BM8, m_BM1, m_BM9,
+//  m_BM10, m_BM11, m_BM12, m_BM13
+//};
 
 Motif* Songbook::s_DragonsBass[46] = {
   m_DragonsREST1,
@@ -676,13 +748,13 @@ Motif* Songbook::s_Dragons[36] = {
 
 Motif* Songbook::s_HuntBass[13] = {
   m_HuntB1, m_HuntB1,                                     //m_HuntB1, m_HuntB1,
-  
+
   m_HuntB1, m_HuntB1,                                     m_HuntB1, m_HuntB1,
   m_HuntB2, m_HuntB3, m_HuntB3, m_HuntB4,                 m_HuntB2, m_HuntB3, m_HuntB5,
 };
 Motif* Songbook::s_Hunt[17] = {
   m_HuntREST1, m_HuntREST1,                               //m_HuntREST1, m_HuntREST1,
-  
+
   m_Hunt1, m_Hunt2, m_Hunt1, m_Hunt2,                     m_Hunt1, m_Hunt2, m_Hunt1, m_Hunt2,
   m_Hunt1, m_Hunt3, m_Hunt1, m_Hunt4,                     m_Hunt1, m_Hunt3, m_Hunt5
 };
@@ -694,13 +766,25 @@ Motif* Songbook::s_CustomBass[12] = {
   m_CustomB4, m_CustomB4, m_CustomB4, m_CustomB4
 
 };
+
+Motif* Songbook::s_MegalovaniaBass[8] = {
+  m_MEGAREST1, m_MEGAREST1, m_MEGAREST1, m_MEGAREST1,
+
+  m_MEGAB1, m_MEGAB2, m_MEGAB3, m_MEGAB4, 
+  
+};
+Motif* Songbook::s_Megalovania[16] = {
+    m_MEGA1, m_MEGAMelody, m_MEGA2, m_MEGAMelody, m_MEGA3, m_MEGAMelody, m_MEGA4, m_MEGAMelody, 
+    
+    m_MEGA1, m_MEGAMelody, m_MEGA2, m_MEGAMelody, m_MEGA3, m_MEGAMelody, m_MEGA4, m_MEGAMelody
+};
 // -----------------------------------------------------------------------------------------------------------------------------------
-//Song Songbook::ClocktownBass = Song(s_ClocktownBass, 11, 90, 8);
-//Song Songbook::Clocktown = Song(s_Clocktown, 35, 90, 8);
+Song Songbook::ClocktownBass = Song(s_ClocktownBass, 11, 90, 8);
+Song Songbook::Clocktown = Song(s_Clocktown, 35, 90, 8);
 
-Song Songbook::BanneredMare = Song(s_BanneredMare, 16, 90, 8);
+//Song Songbook::BanneredMare = Song(s_BanneredMare, 16, 90, 8);
 
-Song Songbook::ZeldasLullaby = Song(s_ZeldasLullaby, 8, 60, 4);
+//Song Songbook::ZeldasLullaby = Song(s_ZeldasLullaby, 8, 60, 4);
 
 Song Songbook::DragonsBass = Song(s_DragonsBass, 46, 105, 4);
 Song Songbook::Dragons = Song(s_Dragons, 36, 105, 4);
@@ -709,6 +793,9 @@ Song Songbook::HuntBass = Song(s_HuntBass, 13, 100, 8);
 Song Songbook::Hunt = Song(s_Hunt, 17, 100, 8);
 
 Song Songbook::CustomBass = Song(s_CustomBass, 12, 90, 4);
+
+Song Songbook::MegalovaniaBass = Song(s_MegalovaniaBass, 8, 60, 4);
+Song Songbook::Megalovania = Song(s_Megalovania, 16, 60, 4);
 // -----------------------------------------------------------------------------------------------------------------------------------
 /* MORE DECLARATIONS*/
 void setKey(char);
@@ -718,8 +805,8 @@ char getMicros(double);
 void setMeter(Song, unsigned char, unsigned char);
 void playSong(Song, char);
 
-Song* volatile songChannel;
-Note* volatile currentNote;
+Song* songChannel;
+Note* currentNote;
 
 /* GETTERS AND SETTERS */
 void setKey(char letter) {
@@ -783,7 +870,6 @@ void playSong(Song song, char channel) {
   playingSong[channel] = true;
 }
 void setup() {
-  //  Serial.begin(9600);
   setKey('D'); // C D E F G A B
   /* TIMER STUFF */
   /* First disable the timer overflow interrupt*/
@@ -883,7 +969,6 @@ ISR(TIMER2_OVF_vect) {
           countf[0] = 0;
         }
       } else {
-        //        digitalWrite(pin[0], LOW);
         countf[0] = 0;
       }
 
@@ -897,12 +982,7 @@ ISR(TIMER2_OVF_vect) {
           noteIndex[0] = 0;
         }
         if (motifIndex[0] == length[0]) { // end of song
-          freq[0] = 126;
-          playingSong[0] = false;
-//          playingSong[1] = false;
-          noteIndex[0] = 0;
-          motifIndex[0] = 0;
-          duration[0] = 0;
+          endSong(0);
         } else {
           currentNote = &songChannel[0].motifs[motifIndex[0]]->notes[noteIndex[0]];
           duration[0] = (currentNote->duration) * beatInMilliseconds / noteIsOneBeat * 1000 / SPEEDCONST;
@@ -923,7 +1003,6 @@ ISR(TIMER2_OVF_vect) {
           countf[1] = 0;
         }
       } else {
-        //        digitalWrite(pin[1], LOW);
         countf[1] = 0;
       }
 
@@ -940,16 +1019,11 @@ ISR(TIMER2_OVF_vect) {
           noteIndex[1] = 0;
         }
         if (motifIndex[1] == length[1]) { // end of song, reset values
-          freq[1] =  126;
-          playingSong[1] = false;
-          playingSong[0] = false;
-          noteIndex[1] = 0;
-          motifIndex[1] = 0;
-          duration[1] = 0;
+          endSong(1);
         } else {
           currentNote = &songChannel[1].motifs[motifIndex[1]]->notes[noteIndex[1]];
           duration[1] = (currentNote->duration) * beatInMilliseconds / noteIsOneBeat * 1000 / SPEEDCONST;
-          freq[1] = (currentNote->distance == '~' /* ascii code 126 */ ) ? 126 : getMicros(getFreq(currentNote->distance)); // 126? rest if true, normal frequency if not
+          freq[1] = (currentNote->distance == '~' /* ascii code 126, essentially a char variable with value 126 */ ) ? 126 : getMicros(getFreq(currentNote->distance)); // 126? rest if true, normal frequency if not
           noteIndex[1]++;
         }
       } else {
@@ -957,6 +1031,18 @@ ISR(TIMER2_OVF_vect) {
       }
     }
   }
+}
+// resets variables used for tracking notes, etc.
+void endSong(int i) {
+  toggle[i] = 0;
+  freq[i] = 126;
+  countf[i] = 0;
+  countd[i] = 0;
+  playingSong[i] = false;
+  duration[i] = 0;
+  noteIndex[i] = 0;
+  motifIndex[i] = 0;
+  length[i] = 0;
 }
 
 void loop() {
@@ -973,30 +1059,30 @@ void loop() {
           if (state8 == HIGH) {} //YYY
       //          tone(pin[0], 880);
           else { //YYN
-//            setMeter(Songbook::Dragons);
-//            playSong(Songbook::Dragons, 0);
-//            playSong(Songbook::DragonsBass, 1);
             setMeter(Songbook::Hunt);
             playSong(Songbook::Hunt, 0);
             playSong(Songbook::HuntBass, 1);
           }
         else //YN_
           if (state8 == HIGH) { //YNY
-            setMeter(Songbook::BanneredMare);
-            playSong(Songbook::BanneredMare, 0);
+//            setMeter(Songbook::BanneredMare);
+//            playSong(Songbook::BanneredMare, 0);
           }
           else {
             setMeter(Songbook::CustomBass, 4, 2);
             playingMetronome = true;
             playSong(Songbook::CustomBass, 0);
             // ignore this. program cannot work with out this statement. Once again, no idea why. It doesn't even print anything out, as the serial monitor isn't set to be receiving anything.
-            Serial.println(playingSong[0]);
+//            Serial.println(playingSong[0]);
           } //YNN
       else  //N__
         if (state5 == HIGH) //NY_
           if (state8 == HIGH) { //NYY
-            setMeter(Songbook::ZeldasLullaby);
-            playSong(Songbook::ZeldasLullaby, 0);
+            setMeter(Songbook::Megalovania);
+            playSong(Songbook::Megalovania, 0);
+            playSong(Songbook::MegalovaniaBass, 1);
+//            setMeter(Songbook::ZeldasLullaby);
+//            playSong(Songbook::ZeldasLullaby, 0);
           }
           else { //NYN
             setMeter(Songbook::Dragons);
@@ -1005,9 +1091,9 @@ void loop() {
           }
         else  //NN_
           if (state8 == HIGH) { //NNY
-//            setMeter(Songbook::Clocktown);
-//            playSong(Songbook::Clocktown, 0);
-//            playSong(Songbook::ClocktownBass, 1);
+            setMeter(Songbook::Clocktown);
+            playSong(Songbook::Clocktown, 0);
+            playSong(Songbook::ClocktownBass, 1);
           }
     }
   }
