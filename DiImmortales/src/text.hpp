@@ -24,6 +24,10 @@ public:
 	 *
 	 */
 };
+void enter() {
+    cin.sync();
+    cin.get();
+}
 string tostring(int i)
 {
     stringstream ss;

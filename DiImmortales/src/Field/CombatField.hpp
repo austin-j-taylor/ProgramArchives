@@ -121,13 +121,17 @@ int CombatField::turnOfBattle(vector<Character*>& enemies) {
 
     			break;
     		}
-    		case 3: { // player parried; killed enemy.
+    		case 3: { // target parried; killed enemy.
     			enemy->die(attacker);
     			enemies.erase(enemies.begin() + i);
     			delete enemy;
     			if(enemies.size() == 0)
     				goto wingame;
     			i--;
+    			break;
+    		}
+    		case 4: { // target parried failed, killed target.
+    			attacker->die(enemies[i]);
     			break;
     		}
     		case 6: { // player parried; killed target by weapon effect

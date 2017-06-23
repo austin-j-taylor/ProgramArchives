@@ -121,6 +121,20 @@ void Menu::writeToFile(Item* item, ofstream* file) {
 		file->write((item->getName() + "\n").c_str(), item->getName().size() + 1);
 	else
 		file->write("\n", 1);
+	file->write(item->getHasSpecialEffect() ? ("1") : ("0"), 1);
+	file->write("\n", 1);
+	if(item->getHasSpecialEffect()) {
+		file->write((item->getSpecialEffect()->getName() + "\n").c_str(), item->getName().size() + 1);
+		file->write((tostring(item->getSpecialEffect()->getPotency()) + "\n").c_str(), tostring(item->getSpecialEffect()->getPotency()).size() + 1);
+		file->write((tostring(item->getSpecialEffect()->getTurnsLeft()) + "\n").c_str(), tostring(item->getSpecialEffect()->getTurnsLeft()).size() + 1);
+	}
+	else {
+		file->write("\n", 1);
+		file->write("\n", 1);
+		file->write("\n", 1);
+	}
+
+
 
 	bool currentSpecialAffinity;
 	// writes special affinities of weapon to file; if the weapon doesn't have a special affinity for that style, the line for the affinity is empty.
@@ -188,6 +202,7 @@ vector<Item*> Menu::parseItems(string fileDir) {
 	vector<Item*> items = {};
 	file.open(fileDir.c_str(), ios_base::in);
 	string confirm, ID, matID, usesMatInName, hasSpecialExamine, specialExamine, hasSpecialName, specialName,
+			hasSpecialEffect, specialEffectID, specialEffectPotency, specialEffectTurnsLeft,
 			specialSlash, slash, specialCrush, crush, specialStab, stab, specialBlock, block, specialBash, bash, specialParry, parry,
 			specialHurl, hurl, specialWeight, weight;
 	getline(file, confirm); // dummy to reach EOF if no items in there
@@ -199,6 +214,10 @@ vector<Item*> Menu::parseItems(string fileDir) {
 		getline(file, specialExamine);
 		getline(file, hasSpecialName);
 		getline(file, specialName);
+		getline(file, hasSpecialEffect);
+		getline(file, specialEffectID);
+		getline(file, specialEffectPotency);
+		getline(file, specialEffectTurnsLeft);
 		getline(file, specialSlash);
 		getline(file, slash);
 		getline(file, specialCrush);
@@ -239,8 +258,12 @@ vector<Item*> Menu::parseItems(string fileDir) {
 				item = new Buckler;
 				break;
 			}
+			case 6: {
+				item = new Apple;
+				break;
+			}
 			default: {
-				item = nullptr;
+				item = new Item();
 			}
 		}
 		Material material;
@@ -262,8 +285,38 @@ vector<Item*> Menu::parseItems(string fileDir) {
 				break;
 			}
 			default: {
+				material = Basic();
 			}
 		}
+		Effect* specialEffect;
+		double potency = atof(specialEffectPotency.c_str());
+		double turnsLeft = atof(specialEffectTurnsLeft.c_str());
+		switch(atoi(specialEffectID.c_str())) {
+			case 0: {
+				specialEffect = new Effect();
+				break;
+			}
+			case 1: {
+				specialEffect = new Stunned(potency, turnsLeft);
+				break;
+			}
+			case 2: {
+				specialEffect = new Dazed(potency, turnsLeft);
+				break;
+			}
+			case 3: {
+				specialEffect = new Bleeding(potency, turnsLeft);
+				break;
+			}
+			case 4: {
+				specialEffect = new Poisoned(potency, turnsLeft);
+				break;
+			}
+			default: {
+				specialEffect = new Effect();
+			}
+		}
+
 		item->setMaterial(material);
 		item->setMaterialNameToDisplay(atoi(usesMatInName.c_str()));
 		// item has a special examine text
@@ -278,6 +331,11 @@ vector<Item*> Menu::parseItems(string fileDir) {
 			item->setName(specialName);
 			item->setHasSpecialName(true);
 		}
+		if(atoi(hasSpecialEffect.c_str())) {
+			item->setSpecialEffect(specialEffect);
+			item->setHasSpecialEffect(true);
+		}
+
 		if(atoi(specialSlash.c_str())) {
 			item->setaSlash(atof(slash.c_str()));
 			item->sethasSpecialSlash(true);

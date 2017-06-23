@@ -7,6 +7,7 @@ private:
     string specialName;
     string examineText;
     bool usesMaterialName;
+    bool hasSpecialEffect;
 	bool isEatenRatherThanDrank;
     Material material;
     Effect* specialEffect;
@@ -70,6 +71,7 @@ public:
     }
     bool getHasSpecialExamine() { return hasSpecialExamine; }
     bool getHasSpecialName() { return hasSpecialName; }
+    bool getHasSpecialEffect() { return hasSpecialEffect; }
     bool getHasSpecialSlash() { return hasSpecialSlash; }
     bool getHasSpecialCrush() { return hasSpecialCrush; }
     bool getHasSpecialStab() { return hasSpecialStab; }
@@ -82,6 +84,7 @@ public:
     bool getUsesMaterialName() { return usesMaterialName; }
 	bool getIsEaten() { return isEatenRatherThanDrank; }
     string getExamineText() { return examineText; }
+    Effect* getSpecialEffect() { return specialEffect; }
     virtual double getAffinity(Style style);
     virtual double getWeight() { return affWeight; }
     virtual Material getMaterial() { return material; }
@@ -104,6 +107,7 @@ public:
     // overloaded by subclasses
     virtual void setHasSpecialExamine(bool set) { hasSpecialExamine = set; }
     virtual void setHasSpecialName(bool set) { hasSpecialName = set; }
+    virtual void setHasSpecialEffect(bool set) { hasSpecialEffect = set; }
     virtual void sethasSpecialSlash(bool set) { hasSpecialSlash = set; }
     virtual void sethasSpecialCrush(bool set) { hasSpecialCrush = set; }
     virtual void sethasSpecialStab(bool set) { hasSpecialStab = set; }
@@ -117,6 +121,9 @@ public:
     // read "Wooden sword" instead of "Sword" and use default examine text from the weapon's material.
     virtual void setMaterialNameToDisplay(bool set) {
     	usesMaterialName = set;
+    }
+    virtual void setSpecialEffect(Effect* effect) {
+    	specialEffect = effect;
     }
     virtual void setMaterial(Material nMaterial) {
     	material = nMaterial;
@@ -157,8 +164,6 @@ public:
     // parses Effect**s to decide which function to call
     Effect* styleEffect(Style);
     Effect* usageEffect(Usage);
-    // returns special effect specific to weapon
-    Effect* getSpecialEffect() { return specialEffect; }
     // effects returned when this item is slashed with/used with, etc.
     virtual void seteSlash(Effect* effect) { effSlash = effect; }
     virtual void seteStab(Effect* effect) { effStab = effect; }
@@ -188,6 +193,7 @@ Item::Item(Material nMaterial = Basic(), string nName = "Item", short nArticle =
 	  effSlash(nullptr), effStab(nullptr), effCrush(nullptr), effBash(nullptr), effBlock(nullptr), effParry(nullptr), effHurl(nullptr) {
 	hasSpecialExamine = false;
 	hasSpecialName = false;
+	hasSpecialEffect = false;
 	specialName = "";
 }
 

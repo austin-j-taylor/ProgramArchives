@@ -49,7 +49,11 @@ enum Stats { None, Hp, HpMod, MaxHp, Str, StrMod, Def, DefMod, Dex, DexMod, Agil
 
 #include "Character\Character.hpp"
 
-#include "Screen\Menu.hpp"
+#include "Story\Screen\GameOver.hpp"
+#include "Story\Screen\Menu.hpp"
+
+#include "Story\Scene.hpp"
+#include "Story\Scenes\Intro.hpp"
 
 #include "Character\Human.hpp"
 #include "Character\Player.hpp"

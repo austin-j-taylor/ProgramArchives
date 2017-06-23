@@ -31,7 +31,7 @@ void Dagger::setMaterialExamine(Material material) {
 		}
 		case 3: {
 			setExamineText("A crude yet surreptitious bronze dagger with rough, ancient decor. Flakes of sea-green patina oxidation cover its surface. "
-            "In a different time, it may have been an elegent weapon.");
+            "In a different time, it may have been an elegant weapon.");
 			break;
 		}
 		case 4: {

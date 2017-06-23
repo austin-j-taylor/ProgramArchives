@@ -10,9 +10,7 @@ using namespace std;
  *
 // HIGH-PRIORITY
  *
- * create numberical ID system for items. This way, they can be saved and re-initialized from save files.
  * allow stats within character creation
- * save effects with items
  *
  * finish usages functions for Character and Item, consumables
  * make all-encompassing effect that induces an instant change to a STAT that decays over TIME to be used by consumables, etc.
@@ -20,8 +18,6 @@ using namespace std;
  * finish Effect system
 	 * change Stunned effect in attack() to have potency based on affBlock or something
 	 * have there be differed verbs for effects (artemis BLED to death, artemis took 3 damage from BLEEDING, etc)
-	 * print details of effects in Analyze
- * chance- and affinity-based Block and Parry
  *
 // PRIORITY
  * create armor integration; integrate its stats into attacks
@@ -29,6 +25,8 @@ using namespace std;
  *
 // LONG TERM
  * delete pointers when done with them ♥
+ *
+ * L O R E
  *
  */
 
@@ -51,6 +49,7 @@ int main() {
     vector<Character*> foes { foe1, foe2, foe3 };
     vector<Item*> items { bd2, ls2 };
 
+    /*
     Player* player = new Player();
 	choices = { "Start New Game", "Load File", "Delete File" };
 	choice = Field::choice(choices, "", false);
@@ -147,11 +146,32 @@ int main() {
 			goto start;
 		}
 	}
+	*/
+    Player* player = new Player();
+	choices = { "Play", "Instructions" };
+	init:
+	choice = Field::choice(choices, "", false);
+	switch(choice) {
+		case 0: { // load character
+			string fileDir = "fileData/saves/Pellis/";
+			player = new Player(fileDir);
 
-	Apple* app = new Apple();
-	player->getBag()->addItem(app);
+			break;
+		}
+		default: { // Instructions
+			println("Press [Enter] to continue through text.");
+			println("In selection fields, type in either the number of your choice or the name of the choice itself.");
+			enter();
+			goto init;
+		}
+	}
+	play(new Intro());
 
+	/*
+	// COMBAT
 	CombatField combatfield = CombatField(player);
+
+
     int playAgain = combatfield.startCombat(foes);
     if(playAgain == -3) {
     	for(Character* foe : foes)
@@ -161,6 +181,8 @@ int main() {
     	delete player;
     	goto start;
     }
-    
-    return 0;
+    */
+	println("Press [Enter] to exit.");
+	enter();
+	return 0;
 }

@@ -278,6 +278,7 @@ int Character::attack(Character* target, Item* weapon, Style style, bool isEquip
 	if(style == Styles::Slash || style == Styles::Stab || style == Styles::Crush || style == Styles::Hurl || style == Styles::Bash) {
 		double hitChance = ((getTDex() * target->getTWeight()) / (target->getTAgil() * getTWeight()));
 		double randHit = rand() % 100 / 100.0;
+		double randParry = rand() % 100 / 100.0;
 //		if(hitChance > 1.0)
 //			println("(Accuracy: 100%)");
 //		else
@@ -328,7 +329,7 @@ int Character::attack(Character* target, Item* weapon, Style style, bool isEquip
 					gainEffect(new Dazed(-0.20, 3));
 				} else { // hurling
 					println(name + " threw "+ getItemTitle(weapon) + weapon->getName() + " at " + target->getName()
-							+ ", but " + target->getPsub() + "deflected the blow with " + target->getItemTitle(targetWeapon) + targetWeapon->getName() + ".");
+							+ ", but " + target->getPsub() + "blocked the blow with " + target->getItemTitle(targetWeapon) + targetWeapon->getName() + ".");
 					hurl(weapon, isEquipped);
 				}
 				target->setIsBlocking(false);
@@ -338,15 +339,18 @@ int Character::attack(Character* target, Item* weapon, Style style, bool isEquip
 				// *** IF SUCCESSFUL:***
 				// target is parrying towards THIS; target does not take Effects and does not take damage.
 				// target deals damage to attacker in a counterattack based off of affParry.
-				int damageParried = (int) (baseDamage * (targetWeapon->getAffinity(Styles::Parry) + targetWeapon->getMaterial().getAffinity(Styles::Parry)));
-				double parryChance = ((getTDex() * target->getTStr()) / (target->getTAgil() * target->getTWeight()));
-//				println("[Chance of parrying: " + tostring(parryChance) + "]");
-				if(true) { // target successfully parried
+				double parryMultiplier = (targetWeapon->getAffinity(Styles::Parry) * targetWeapon->getMaterial().getAffinity(Styles::Parry));
+				int damageParried = (int) (baseDamage * parryMultiplier);
+				double parryChance = ((parryMultiplier * getTDex()) / (target->getTDex() * getTWeight()));
+				println("[Chance of Parrying: " + tostring(parryChance) + "]");
+				println("[Random Parry Chance: " + tostring(randParry) + "]");
+				if(parryChance > randParry) { // target successfully parried
 					if(style != Styles::Hurl) { // not hurling
 						println(name + " " + weapon->getVerb(style) + " " + target->getName() + " with " + getItemTitle(weapon) + weapon->getName()
-								+ ", but " + target->getName() + " parried the blow with " + getItemTitle(targetWeapon) + targetWeapon->getName()
-								+ ", turning and counterattacking " + getPobj() + " for " + tostring(damageParried) + " damage.");
+								+ ", but " + target->getName() + " parried the blow with " + target->getItemTitle(targetWeapon) + targetWeapon->getName()
+								+ ", counterattacked " + getPobj() + " for " + tostring(damageParried) + " damage, and dazed " + getPobj() + ".");
 						lose(Stats::Hp, damageParried);
+						gainEffect(new Dazed());
 						if(isDead()) {
 							return 3; // ATTACKER died from attacking a parrying target
 						}
@@ -360,15 +364,15 @@ int Character::attack(Character* target, Item* weapon, Style style, bool isEquip
 						hurl(weapon, isEquipped);
 					}
 				} else { // target failed to parry
-					damageParried = 999;
+					damageParried /= 2;
 
 					if(style != Styles::Hurl) { // not hurling
 
 						println(name + " " + weapon->getVerb(style) + " " + target->getName() + " with " + getItemTitle(weapon) + weapon->getName()
-								+ ", breaking through " + target->getPpos() + " parry, for " + tostring(damageParried) + " damage.");
-						lose(Stats::Hp, damageParried);
-						if(isDead()) {
-							return 3; // if ATTACKER died from attacking a parrying target
+								+ ", breaking through " + target->getPpos() + "parry, for " + tostring(damageParried) + " damage.");
+						target->lose(Stats::Hp, damageParried);
+						if(target->isDead()) {
+							return 4; // if TARGET died from FAILING TO PARRY the ATTACKER
 						}
 						gainEffect(target->getEquippedArms()->itemAt(0)->getSpecialEffect());
 					} else { // hurling, attacker suffers no recoil damage

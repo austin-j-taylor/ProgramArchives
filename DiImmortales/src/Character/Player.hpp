@@ -88,10 +88,7 @@ void Player::die(Character* enemy = nullptr, Effect* effect = nullptr, string me
     exit(0); // replace with game over screen later
 }
 void Player::winGame() {
-    println("You conquered capitalism!");
     println("Press [Enter] to end the game.");
-    println("Thanks for playing this game. Please like, comment, and subscribe if you want to see more games like this in the future.");
-    cin.sync();
-    cin.get();
+    enter();
     exit(0); // replace with game over screen later
 }

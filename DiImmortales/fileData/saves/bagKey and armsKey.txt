@@ -1,4 +1,4 @@
-
+NEWLINE
 ItemTypeID (LongswordID, DaggerID, etc.)
 MaterialID
 usesMaterialInName(true or false. if true, the item uses its material before its name (i.e. "wooden sword" vs "sword")
@@ -6,6 +6,10 @@ hasSpecialExamine? (true or false. if true, next line is the special examine tex
 specialExamine
 hasSpecialName? (true or false. if true, next line is name. if false, the item uses its expected name.)
 specialName
+hasSpecialEffect? (true or false. If true, the unique item has a special effect when used to attack)
+specialEffectID (newline if there is no effect.)
+specialEffect potency
+specialEffect turnsLeft
 specialSlash?
 value
 specialCrush?
@@ -30,6 +34,10 @@ hasSpecialExamine? (true or false. if true, next line is the special examine tex
 specialExamine
 hasSpecialName? (true or false. if true, next line is name. if false, skip the next line)
 specialName
+hasSpecialEffect? (true or false. If true, the unique item has a special effect when used to attack)
+specialEffectID (newline if there is no effect.)
+specialEffect potency (newline if there is no effect.)
+specialEffect turnsLeft (newline if there is no effect.)
 specialSlash?
 value
 specialCrush?
@@ -54,6 +62,10 @@ hasSpecialExamine? (true or false. if true, next line is the special examine tex
 specialExamine
 hasSpecialName? (true or false. if true, next line is name. if false, skip the next line)
 specialName
+hasSpecialEffect? (true or false. If true, the unique item has a special effect when used to attack)
+specialEffectID (newline if there is no effect.)
+specialEffect potency
+specialEffect turnsLeft
 specialSlash?
 value
 specialCrush?

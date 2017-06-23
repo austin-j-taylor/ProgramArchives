@@ -18,6 +18,7 @@ public:
     virtual bool getHasDOT() { return hasDOT; }
     virtual void setStat(Stats n) { stat = n; }
     bool operator==(Effect);
+    int ID;
     
 private:
     string effectName;
@@ -37,8 +38,8 @@ private:
 //Effect::Effect(string nEffect, double nPotency, short nTurnsLeft, int nAmountDOT)
 //    : Effect(nEffect, nPotency, nTurnsLeft, 0.0, nAmountDOT) {
 //}
-Effect::Effect(string nEffect, double nPotency, short nTurnsLeft, bool nHasConstant = true, bool nHasPercent = false, bool nHasDOT = false)
-    : effectName(nEffect), potency(nPotency), turnsLeft(nTurnsLeft), stat(Stats::None), isConstant(nHasConstant), isPercent(nHasPercent), hasDOT(nHasDOT) {
+Effect::Effect(string nEffect = "Effect", double nPotency = 0, short nTurnsLeft = 0, bool nHasConstant = true, bool nHasPercent = false, bool nHasDOT = false)
+    : ID(0), effectName(nEffect), potency(nPotency), turnsLeft(nTurnsLeft), stat(Stats::None), isConstant(nHasConstant), isPercent(nHasPercent), hasDOT(nHasDOT) {
 //	if(percentDOT == 0.0)
 //		typeOfDOT = true; // integral
 //	else
