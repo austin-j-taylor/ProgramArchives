@@ -50,6 +50,8 @@ int main() {
     vector<Item*> items { bd2, ls2 };
 
     /*
+     * Combat Mode
+     */
     Player* player = new Player();
 	choices = { "Start New Game", "Load File", "Delete File" };
 	choice = Field::choice(choices, "", false);
@@ -146,7 +148,12 @@ int main() {
 			goto start;
 		}
 	}
-	*/
+
+
+    /*
+     * Story Mode
+     */
+    /*
     Player* player = new Player();
 	choices = { "Play", "Instructions" };
 	init:
@@ -166,8 +173,8 @@ int main() {
 		}
 	}
 	play(new Intro());
+	*/
 
-	/*
 	// COMBAT
 	CombatField combatfield = CombatField(player);
 
@@ -181,7 +188,7 @@ int main() {
     	delete player;
     	goto start;
     }
-    */
+
 	println("Press [Enter] to exit.");
 	enter();
 	return 0;
