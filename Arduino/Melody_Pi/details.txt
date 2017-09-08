@@ -1,0 +1,7 @@
+Melody_Pi uses the same code as Melody_2, but is used with a slightly different setup for circuitry.
+
+This project was inspired by (and heavily copied from) Allen Pan, who designed a Raspberry Pi setup that used a microphone to listen and read notes played into it and execute code based on the sequence of notes (https://github.com/Sufficiently-Advanced/ZeldaHomeAutomation).
+
+I mimicked his setup with a Pi and Arduino to play songs through Melody_2 when it heard the start of songs through the Pi.
+
+This is just the Arduino code; the Python code for the Pi is unavailable to me currently (as in, a four-hour drive away from me on a different computer).
