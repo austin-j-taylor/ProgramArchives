@@ -1,0 +1,22 @@
+﻿  main.cpp
+c:\users\austi\documents\github\programarchives\diimmortales\src\text.hpp(90): warning C4018: '<': signed/unsigned mismatch
+c:\users\austi\documents\github\programarchives\diimmortales\src\character\character.hpp(203): warning C4018: '<': signed/unsigned mismatch
+c:\users\austi\documents\github\programarchives\diimmortales\src\character\character.hpp(607): warning C4018: '<': signed/unsigned mismatch
+c:\users\austi\documents\github\programarchives\diimmortales\src\story\screen\menu.hpp(300): warning C4244: 'argument': conversion from 'double' to 'short', possible loss of data
+c:\users\austi\documents\github\programarchives\diimmortales\src\story\screen\menu.hpp(304): warning C4244: 'argument': conversion from 'double' to 'short', possible loss of data
+c:\users\austi\documents\github\programarchives\diimmortales\src\story\screen\menu.hpp(308): warning C4244: 'argument': conversion from 'double' to 'short', possible loss of data
+c:\users\austi\documents\github\programarchives\diimmortales\src\story\screen\menu.hpp(312): warning C4244: 'argument': conversion from 'double' to 'short', possible loss of data
+c:\users\austi\documents\github\programarchives\diimmortales\src\field\field.hpp(18): warning C4018: '<': signed/unsigned mismatch
+c:\users\austi\documents\github\programarchives\diimmortales\src\field\field.hpp(25): warning C4018: '<': signed/unsigned mismatch
+c:\users\austi\documents\github\programarchives\diimmortales\src\field\field.hpp(46): warning C4018: '<': signed/unsigned mismatch
+c:\users\austi\documents\github\programarchives\diimmortales\src\field\combatfield.hpp(105): warning C4018: '<': signed/unsigned mismatch
+c:\users\austi\documents\github\programarchives\diimmortales\src\field\combatfield.hpp(150): warning C4018: '<': signed/unsigned mismatch
+c:\users\austi\documents\github\programarchives\diimmortales\src\field\combatfield.hpp(177): warning C4307: '*': integral constant overflow
+c:\users\austi\documents\github\programarchives\diimmortales\src\item\material\material.hpp(52): warning C4715: 'Material::getAffinity': not all control paths return a value
+c:\users\austi\documents\github\programarchives\diimmortales\src\item\item.hpp(229): warning C4715: 'Item::article': not all control paths return a value
+c:\users\austi\documents\github\programarchives\diimmortales\src\item\item.hpp(248): warning C4715: 'Item::usageEffect': not all control paths return a value
+c:\users\austi\documents\github\programarchives\diimmortales\src\item\item.hpp(280): warning C4715: 'Item::getVerb': not all control paths return a value
+c:\users\austi\documents\github\programarchives\diimmortales\src\item\item.hpp(328): warning C4715: 'Item::getAffinity': not all control paths return a value
+c:\users\austi\documents\github\programarchives\diimmortales\src\item\item.hpp(240): warning C4715: 'Item::styleEffect': not all control paths return a value
+c:\users\austi\documents\github\programarchives\diimmortales\src\field\combatfield.hpp(75): warning C4715: 'CombatField::startCombat': not all control paths return a value
+  DiImmortales.vcxproj -> C:\Users\austi\Documents\GitHub\ProgramArchives\DiImmortales\Debug\DiImmortales.exe

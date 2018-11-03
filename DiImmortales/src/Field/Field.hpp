@@ -6,7 +6,7 @@ public:
 	Field() {}
     static int choice(vector<string> options, string message, bool isBackAnOption);
     static string choice(string message);
-    virtual int choice(vector<Character*>& enemies) {}
+	virtual int choice(vector<Character*>& enemies) { return 0;	}
 private:
     
 };

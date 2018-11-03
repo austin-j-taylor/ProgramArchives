@@ -2,9 +2,9 @@ Apollo
 "Music's cool, right?"
 He's trying to fire a bow. A violin bow, mind you. It's somehow working.
 0
-70
-70
-6
+80
+80
+10
 11
 15
 12
